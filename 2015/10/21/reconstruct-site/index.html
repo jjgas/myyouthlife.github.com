@@ -17,7 +17,7 @@
 <!--<![endif]-->
 
 <head>
-  <title>Archives: 2015 | gishub.info-where to collect gis info</title>
+  <title>arcgis server site 快速恢复与重建 | gishub.info-where to collect gis info</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -84,7 +84,7 @@
 </head>
 
 <!--
-<body class="home-template">
+<body class="post-template">
 -->
 <body id="index" class="lightnav animsition">
 
@@ -227,85 +227,132 @@
 
         <!-- ============================ END Hero Image =========================== -->
       
-
-
-<section id="services">
+<section id="intro">
     <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="row boxes">
-                    
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/10/21/reconstruct-site/">arcgis server site 快速恢复与重建</a></h4>
-                            
-                            <p><time datetime="2015-10-21T01:53:35.000Z"><a href="/2015/10/21/reconstruct-site/">2015-10-21</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/10/13/log-format-tool/">arcgis server/portal 日志格式化脚本</a></h4>
-                            
-                            <p><time datetime="2015-10-13T06:10:52.000Z"><a href="/2015/10/13/log-format-tool/">2015-10-13</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/08/26/batchPublishtools/">arcgis server管理工具之批量发布动态地图服务</a></h4>
-                            
-                            <p><time datetime="2015-08-26T08:48:24.000Z"><a href="/2015/08/26/batchPublishtools/">2015-08-26</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/08/21/python-code/">python 中几个层次的中文编码</a></h4>
-                            
-                            <p><time datetime="2015-08-21T07:51:30.000Z"><a href="/2015/08/21/python-code/">2015-08-21</a></time></p>
-                        </div>
-                    
-                        
-                            </div><div class="row boxes">
-                            
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/07/23/introduction/">SOI简介</a></h4>
-                            
-                            <p><time datetime="2015-07-23T07:33:03.000Z"><a href="/2015/07/23/introduction/">2015-07-23</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/04/19/selfcontrol/">《自控力》读书笔记</a></h4>
-                            
-                            <p><time datetime="2015-04-19T15:10:27.000Z"><a href="/2015/04/19/selfcontrol/">2015-04-19</a></time></p>
-                        </div>
-                    
-                </div>
-            </div>    
+        <div class="row col-md-offset-1">
+            <div class="col-md-8">    		
+                <h1>arcgis server site 快速恢复与重建</h1>
+				<span class="post-meta">
+      <time datetime="2015-10-21T01:53:35.000Z" itemprop="datePublished">
+          2015-10-21
+      </time>
+    
+    
+    | 
+    <a href='/tags/arcgisserver/'>arcgisserver</a>,
+    
+    <a href='/tags/management/'>management</a>
+    
+    
+</span>
+            </div>
         </div>
-    </div>
-</section> 
+		<div class="row">
+		   <div class="col-md-8 col-md-offset-1">
+      		<h2 id="背景">背景</h2><p>在实际的工作中，会遇到如下的情形：</p>
+<blockquote>
+<p><strong>arcgis server服务能够启动</strong>，但是由于未知的操作原因导致site里面的某个功能出现故障。</p>
+</blockquote>
+<p>要想在短时间内，使得server能够恢复正常功能。且：</p>
+<ol>
+<li>不重新安装arcgis server</li>
+<li>不重新发布服务，<a id="more"></a>
+则可以对当前server的站点进行快速的恢复与重建。也就是相当于<strong>恢复出场设置功能</strong>。</li>
+</ol>
+<h2 id="原理">原理</h2><p>在前面的文章已经总结过服务迁移的几种情形，本篇文章为前面情形中最为简单的情况，保持各种参数都不变，具体参考如下链接：</p>
+<p>(<a href="http://www.cnblogs.com/myyouthlife/p/4255311.html" target="_blank" rel="external">http://www.cnblogs.com/myyouthlife/p/4255311.html</a>)</p>
+<h2 id="操作步骤">操作步骤</h2><p>在按照操作步骤执行前，请确定是否满足条件，参考底下的<strong>注意</strong></p>
+<ul>
+<li><p>停止arcgis server 服务。</p>
+<blockquote>
+<p>windwos  在服务管理器中，linux通过./stopserver 命令</p>
+</blockquote>
+</li>
+<li><p>对arcgisserver目录进行备份。最简单的办法是重命名该文件夹，只要不叫arcgisserver即可。</p>
+</li>
+<li><p>启动arcgis server 服务</p>
+</li>
+<li>通过manager或者admin重新创建站点</li>
+</ul>
+<blockquote>
+<p>由于arcgis server 重启后，在服务目录下 找不到arcgisserver文件夹，故会认为当前机器上不存在站点。则manager页面或者admin页面会出现提醒创建site</p>
+</blockquote>
+<ul>
+<li>创建site</li>
+</ul>
+<blockquote>
+<p>site 的用户名和密码和前面的site 保持匹配。且directory和config-store存储位置也保持匹配。在这一步可能会出现错误 “当前位置已经有站点balalala的”。请去目录下查看是否有arcgisserver目录。有手动删除，然后下一步即可。</p>
+</blockquote>
+<ul>
+<li>恢复服务<br>再次停止arcgis server服务。 将备份文件夹中的至少如下三个文件夹：config-store\services ; directories\arcgissystem\arcgisinput; directories\arcgisoutput 拷贝到新的站点，覆盖新站点对应的文件夹</li>
+</ul>
+<blockquote>
+<p>一般动态地图服务，拷贝上面三个目录即可。但是切片服务或者地理处理服务。需要将arcgiscache和arcgisjob目录拷贝过来。切莫覆盖整个config-store。</p>
+</blockquote>
+<ul>
+<li>重启服务</li>
+</ul>
+<p>重启arcgis server服务即可。</p>
+<h2 id="注意">注意</h2><p>该项恢复和重建操作，只适合于如下场景：</p>
+<ul>
+<li>在同一台机器上（不在同一台机器上，稍微麻烦，参考原理篇去操作）</li>
+<li>arcgis server版本 大于10.1 </li>
+<li>当前site的arcgis server服务能够正常的启动（不能正常启动，只能重装了arcgis server）。</li>
+<li>重建后site的管理员和用户名和旧site的保持匹配</li>
+<li>arcgisserver目录路径保持不变</li>
+<li>服务所使用到的数据源依然可以访问到</li>
+</ul>
+<h2 id="总结">总结</h2><p>通过上面的步骤，基本上百试不爽。</p>
+				
+            </div>
+			<div class="col-md-3">        
+		 
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">2.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#操作步骤"><span class="toc-number">3.</span> <span class="toc-text">操作步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">4.</span> <span class="toc-text">注意</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+	</div>
+			
+         
+		</div>
+     
 
-<section id="statement">
-    <div class="container text-center wow fadeInUp" data-wow-delay="0.5s">
-        <div class="row">
-            <p>welcome to suwenjiang's word & world。</p>
+            <div class="clearfix"></div>
+            <hr class="nogutter">
         </div>
+	
+        <nav class="pagination" role="pagination">
+    
+    <a class="pull-left" href="/2016/02/29/geojson/" style="float: left;">
+        ← 需要了解的geojson和操作工具
+    </a>
+    
+    
+    <a class="pull-right" href="/2015/10/13/log-format-tool/">
+        arcgis server/portal 日志格式化脚本 →
+    </a>
+    
+</nav>
+
+        <div class="duoshuo">
+<div class="ds-thread" data-thread-key="2015/10/21/reconstruct-site/" data-title="arcgis server site 快速恢复与重建" data-url="gishub.info/2015/10/21/reconstruct-site/"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"myyouthlife"};
+(function() {
+	var ds = document.createElement('script');
+	ds.type = 'text/javascript';ds.async = true;
+	ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	ds.charset = 'UTF-8';
+	(document.getElementsByTagName('head')[0] 
+	 || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+</div>
     </div>
 </section>
+
+
       
 <!-- ============================ Footer =========================== -->
 

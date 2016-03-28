@@ -17,7 +17,7 @@
 <!--<![endif]-->
 
 <head>
-  <title>Archives: 2015 | gishub.info-where to collect gis info</title>
+  <title>postGIS安装与shp文件的存储示范 | gishub.info-where to collect gis info</title>
   <!-- Meta data -->
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -84,7 +84,7 @@
 </head>
 
 <!--
-<body class="home-template">
+<body class="post-template">
 -->
 <body id="index" class="lightnav animsition">
 
@@ -227,85 +227,117 @@
 
         <!-- ============================ END Hero Image =========================== -->
       
-
-
-<section id="services">
+<section id="intro">
     <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <div class="row boxes">
-                    
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/10/21/reconstruct-site/">arcgis server site 快速恢复与重建</a></h4>
-                            
-                            <p><time datetime="2015-10-21T01:53:35.000Z"><a href="/2015/10/21/reconstruct-site/">2015-10-21</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/10/13/log-format-tool/">arcgis server/portal 日志格式化脚本</a></h4>
-                            
-                            <p><time datetime="2015-10-13T06:10:52.000Z"><a href="/2015/10/13/log-format-tool/">2015-10-13</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/08/26/batchPublishtools/">arcgis server管理工具之批量发布动态地图服务</a></h4>
-                            
-                            <p><time datetime="2015-08-26T08:48:24.000Z"><a href="/2015/08/26/batchPublishtools/">2015-08-26</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/08/21/python-code/">python 中几个层次的中文编码</a></h4>
-                            
-                            <p><time datetime="2015-08-21T07:51:30.000Z"><a href="/2015/08/21/python-code/">2015-08-21</a></time></p>
-                        </div>
-                    
-                        
-                            </div><div class="row boxes">
-                            
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/07/23/introduction/">SOI简介</a></h4>
-                            
-                            <p><time datetime="2015-07-23T07:33:03.000Z"><a href="/2015/07/23/introduction/">2015-07-23</a></time></p>
-                        </div>
-                    
-                        
-                        
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 wow fadeInUp" data-wow-delay="0.3s">
-                            
-                              <h4 class="title"><a href="/2015/04/19/selfcontrol/">《自控力》读书笔记</a></h4>
-                            
-                            <p><time datetime="2015-04-19T15:10:27.000Z"><a href="/2015/04/19/selfcontrol/">2015-04-19</a></time></p>
-                        </div>
-                    
-                </div>
-            </div>    
+        <div class="row col-md-offset-1">
+            <div class="col-md-8">    		
+                <h1>postGIS安装与shp文件的存储示范</h1>
+				<span class="post-meta">
+      <time datetime="2013-03-07T01:56:31.000Z" itemprop="datePublished">
+          2013-03-07
+      </time>
+    
+    
+    | 
+    <a href='/tags/database/'>database</a>,
+    
+    <a href='/tags/opensource/'>opensource</a>
+    
+    
+</span>
+            </div>
         </div>
-    </div>
-</section> 
+		<div class="row">
+		   <div class="col-md-8 col-md-offset-1">
+      		<p>自己装PostGIS已经有很多次了，由于没有记录，过一段时间就忘掉了。今天就写下本文记录。</p>
+<p>前言：</p>
+<p>PostGIS是关系对象型postgresql数据库的空间引擎。在安装PostGIS 前首先必须安装postgresql，然后在安装好的Application Stack Builder 中选择安装PostGIS组件。</p>
+<a id="more"></a>
+<h2 id="安装">安装</h2><p>1.安装文件</p>
+<p>下载Postgresql安装包，选择与自己操作系统相符的安装包。本文中用的postgresql ，Version9.2.3 win 64。</p>
+<p>下载安装包：<a href="http://www.enterprisedb.com/products-services-training/pgdownload#windows" target="_blank" rel="external">http://www.enterprisedb.com/products-services-training/pgdownload#windows</a></p>
+<p>2.安装步骤</p>
+<p>Step1：运行安装文件，设置安装目录</p>
+<p>Step2：到图1时，设置超级用户的密码，默认用户名为：postgres</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_1.png-size" alt="图1"></p>
+<p>Step 3：设置数据库使用的区域。如果本地使用可以默认。如图2所示。</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_2.png-size" alt=" 图2"></p>
+<p>Step4:选择安装组件的位置，如图3所示，本文是本地安装选择，第二个。</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_3.png-size" alt="图3"></p>
+<p> Step 5：安装postGIS组件，如图4所示。</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_4.png-size" alt="图 4"></p>
+<p>Step 6：下一步，设置数据库登录的用户名和密码。如图5，下一步等待完成。</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_5.png-size" alt="图 5"></p>
+<h2 id="shapefile文件入库">shapefile文件入库</h2><p>1.PostGIS Shapefile Import/Export Manager工具导入</p>
+<p> PostGIS提供了智能工具，方便快捷的将shapefile文件存入到数据库中。在入库之前，先得建立数据库。</p>
+<p>Step：开始菜单—pgAdminIII，在pgAdminIII对话框中的数据库目录树中新建数据库。如图6所示</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_6.png-size" alt="图 6"></p>
+<p>Step 2：设置新建数据库的属性。在属性页填写变量名和选择所有者，如图7所示。在定义页 选择模板和表空间。如果8所示。笔者在选择模板是没有选择template_postgis_20，在入库是总出现”没有匹配的指定名称和参数”错误。如果选择的字符编码为UTF-8，根据数据的中的编码不一样，也可能出现错误，但是可以在入库时候在做修改。</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_7.png-size" alt="图7">                                                                                       <img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_8.png-size" alt="图8"></p>
+<p>Step 3：经过前面两步已经建好了数据库，接下来的工作是将shapefile文件导入到刚建立的数据库中。点击开始中的PostGIS Shapefile Import/Export Manager，在图9所示的界面中选择，view connection details ，输入数据库连接方式，图10。点击Addfile，加载需要添加的shapefile文件。点击import按钮</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_9.png-size" alt="图 9 ">                                                                          <img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_10.png-size" alt="图 10"></p>
+<p>step 4：在导入过程会遇到编码的错误，如图11。数据库采用了UTF-8，而导入的文件为其他编码，如图13，数据库为UTF-8，而文件为LATINI1，解决办法是点击Options，修改编码方式为LATINI1.修改完成后，在导入，成功后可以在pgAdminIII 中 目录下的数据表中看到导入的数据，如图12的数据表所示。</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_11.png-size" alt="图11">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_12.png-size" alt="图12">　</p>
+<p>2.使用命令行导入</p>
+<p>使用命令行的到入shapefile文件有两个步骤。一是根据文件生成sql，二是：将sql文件到入到库中。</p>
+<p>Step1：打开cmd，依次输入一下命令(根据自己的postsql 的安装目录)</p>
+<p>d: </p>
+<p>cd D:\Program Files\PostgreSQL\9.2\bin</p>
+<p>shp2pgsql -s -4269 d:\Links.shp jmb&gt;d:\dddd.sql  // shp2 pgsql 为将shp 文件转换为pg（postgis）支持的sql， -s是设置 srid（Spatial Reference System Identifier）jmb为数据库名 ，在d盘下可以看到到处的dddd.sql 文件。图13</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_13.png-size" alt="图13"></p>
+<p>tips： 查看诸如-s的意思，可以直接命令shp2pgsql，如图14所示</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_14.png-size" alt="图14"></p>
+<p>Step 2：通过sql语句查询器入库，打开pgAdminIII，链接数据库，点击工具条上的sql命令，然后加载生成的sql，点击执行，如下图</p>
+<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_15.png-size" alt="图 15">                                                                                       <img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_16.png-size" alt="图 16"></p>
+<p> tips: 也可以直接一步运用命令存到数据库中</p>
+<h2 id="总结">总结</h2><p>网上关于这方面的资料很多。</p>
+<p>扩展阅读：<strong>POSTGIS IN ACTION</strong></p>
+				
+            </div>
+			<div class="col-md-3">        
+		 
+      <div class="article-toc">
+        <h3>目录</h3>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#shapefile文件入库"><span class="toc-number">2.</span> <span class="toc-text">shapefile文件入库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+      </div>
+    
+	</div>
+			
+         
+		</div>
+     
 
-<section id="statement">
-    <div class="container text-center wow fadeInUp" data-wow-delay="0.5s">
-        <div class="row">
-            <p>welcome to suwenjiang's word & world。</p>
+            <div class="clearfix"></div>
+            <hr class="nogutter">
         </div>
+	
+        <nav class="pagination" role="pagination">
+    
+    <a class="pull-left" href="/2015/04/19/selfcontrol/" style="float: left;">
+        ← 《自控力》读书笔记
+    </a>
+    
+    
+</nav>
+
+        <div class="duoshuo">
+<div class="ds-thread" data-thread-key="2013/03/07/postgisinstallation/" data-title="postGIS安装与shp文件的存储示范" data-url="gishub.info/2013/03/07/postgisinstallation/"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"myyouthlife"};
+(function() {
+	var ds = document.createElement('script');
+	ds.type = 'text/javascript';ds.async = true;
+	ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	ds.charset = 'UTF-8';
+	(document.getElementsByTagName('head')[0] 
+	 || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script>
+</div>
     </div>
 </section>
+
+
       
 <!-- ============================ Footer =========================== -->
 
