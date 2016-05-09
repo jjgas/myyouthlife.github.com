@@ -7,7 +7,7 @@
 
     
 
-    <title>SOI简介 | gishub.info-where to collect gis info</title>
+    <title>ArcGIS Javascript4.0 初体验 | gishub.info-where to collect gis info</title>
     <meta name="author" content="suwenjiang">
     
     <meta name="description" content="gis 知识的集散地">
@@ -15,7 +15,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="SOI简介"/>
+    <meta property="og:title" content="ArcGIS Javascript4.0 初体验"/>
     <meta property="og:site_name" content="suwen&#39;s GISHub"/>
 
     
@@ -200,7 +200,7 @@
             
     
     
-    <a class="breadcrumb" href="/categories/arcgis-server/">arcgis server</a>
+    <a class="breadcrumb" href="/categories/coding/">coding</a>
 
 
         
@@ -217,70 +217,104 @@
             <div class="article-title">
                 
     
-        <h1>SOI简介</h1>
+        <h1>ArcGIS Javascript4.0 初体验</h1>
     
 
 
             </div>
-            <time class="pink-link-context" datetime="2015-07-23T07:33:03.000Z"><a href="/2015/07/23/introduction/">2015-07-23</a></time>
+            <time class="pink-link-context" datetime="2016-05-09T09:45:59.000Z"><a href="/2016/05/09/jsapinews/">2016-05-09</a></time>
 
             
     <div class="tags-row">
         
-            <a href="/tags/SOI/" class="chip pink lighten-1">SOI</a>
-        
             <a href="/tags/arcgis/" class="chip pink lighten-1">arcgis</a>
+        
+            <a href="/tags/javascript/" class="chip pink lighten-1">javascript</a>
         
     </div>
 
 
             <div class="toc pink-link-context hide-on-med-and-down">
-    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#导语"><span class="section table-of-contents-text">导语</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#什么是SOI"><span class="section table-of-contents-text">什么是SOI</span></a><ol class="section table-of-contents-child"><li class="section table-of-contents-item section table-of-contents-level-3"><a class="section table-of-contents-link" href="#与SOE"><span class="section table-of-contents-text">与SOE</span></a></li></ol></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#SOI的开发与实现"><span class="section table-of-contents-text">SOI的开发与实现</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#总结"><span class="section table-of-contents-text">总结</span></a></li></ol>
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#前言"><span class="section table-of-contents-text">前言</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#具体变化"><span class="section table-of-contents-text">具体变化</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#总结"><span class="section table-of-contents-text">总结</span></a></li></ol>
 </div>
 
 
             <div class="entry pink-link-context">
-                <h2 id="导语">导语</h2><p>arcgis for server10.3.1中提供了一个新的功能叫做soi。本文简单的介绍soi概念，实现，在使用过程中的注意事项。阅读本文和使用soi需要以下先决条件</p>
-<ol>
-<li>SOI是ArcGIS Server 10.3.1中新增加的功能。故开发和部署SOI需要安装ArcObject sdk 10.3.1 和 ArcGIS Server 10.3.1。<a id="more"></a></li>
-<li>了解SOE开发的流程。</li>
-</ol>
-<h2 id="什么是SOI">什么是SOI</h2><p>SOI是server object interceptors的缩写。从字面意思，是服务对象捕获器。esri对其的介绍是，用来捕获触发地图服务和影像服务内置操作的请求。</p>
-<p>也即是任何调用server服务功能的前端，发送的请求，都能在服务器端被自定义的soi应用程序捕获到。soi可以过滤到达的请求，也可以在response中添加内容返回前端。如下示意图：<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/soi1.png-size" alt="1" title="示意图"></p>
-<p>在网络开发中，有个常见的功能，就是开发防盗链。即在图片上加logo等水印。在server的出图操作中，可以运用soi，捕获每次export map返回的结果。给结果图片加上水印。</p>
-<p>除了这种情形，还有一些，比如，针对图层和功能级别的控制都可以使用soi。</p>
-<h3 id="与SOE">与SOE</h3><p>定位上，SOE是Server Object Extension 的缩写，其旨在丰富sever服务器端能够提供的功能。而SOI旨在对每次到达服务器端的请求处理。</p>
-<p>实现上，两种的底层的实现原理其实是一样的，编写dll，注册到服务器端。且两者的开发和部署的方式一样。安装了AO sdk 10.3.1的版本，在编辑中，新建项目可以看到多了一个SOI的模板。</p>
-<p>soi开发编译完后，也是生成soe文件，在site中部署即可。可以直接说SOI即是一个SOE的功能子集。在SOE的开发模板中可以实现soi的这种功能。只不过使用SOE获取参数的过程，soi直接给你参数变量。具体怎么实现，这里就按下不表。</p>
-<h2 id="SOI的开发与实现">SOI的开发与实现</h2><p>SOI支持 以下三种请求的捕捉：</p>
-<ul>
-<li>REST 请求</li>
-<li>SOAP请求</li>
-<li>OGC请求</li>
-</ul>
-<p>根据请求类型的不一样，其需要实现的接口是不一样的，上面三种请求类型，对应需要实现的接口如下：</p>
-<ul>
-<li>IRESTRequestHandler-rest的请求</li>
-<li>IRequestHandler2-soap包括arcmap发送的请求</li>
-<li>IWebRequestHandler</li>
-</ul>
-<p>三种都隶属于命名空间Esri.ArcGIS.esriSystem</p>
-<p><strong>需要注意的是，不管你想捕获的请求是上面的那一种，这三个接口的是必须实现。如你只想捕获rest请求，但是在模板除了添加IRESTRequestHandler的实现方法，其他两个接口的方法也必须实现。 而你在其他两个接口方法中，不编写任何的处理代码。</strong>   看完这段话，也许会感到诧异，为何只需要控制一种请求，而需要实现三种方式，考虑下面的情形：</p>
+                <h2 id="前言">前言</h2><p>最近esri推出了ArcGIS Javascript的api4.0版本，在长时间的beta，都beta3后，终于郑重的推出了4.0 正式版本。作为开发者，长吁一口气。也许大家会有疑问，为何更新一个版本需要如此长的时间。真相只有一个，那就是：</p>
 <blockquote>
-<p>arcgis server发布的地图服务，既通过rest也通过soap对外提供服务能力。如果在开发某一个功能，特别是安全方面的控制的时候，如果只在rest的实现方式中添加控制代码而soap中不添加，就soap这端会存在安全漏洞。这个时候的建议就是在三种实现中都处理所有的请求</p>
+<p>4.0版本的api是全新的，其不是3.x版本的升级，而是esri推到重来，重新开发的API。</p>
 </blockquote>
-<p>三种实现方式中，rest是最为简单的实现方式。所有的参数都是json的形式。其中有两个必须实现的方式，其中下面的方法，是需要开发人员处理的：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">byte</span>[] HandleRESTRequest(<span class="keyword">string</span> capabilities, <span class="keyword">string</span> resourceName, <span class="keyword">string</span></span><br><span class="line"> operationName, <span class="keyword">string</span> operationInput, <span class="keyword">string</span> outputFormat, <span class="keyword">string</span></span><br><span class="line"> requestProperties, <span class="keyword">ref</span> <span class="keyword">string</span> responseProperties);</span><br></pre></td></tr></table></figure>
-<p>看下这个方法的中的输入参数名，是不是对soi的实现一目了然。在这个方法中，通过对传递过来的参数就行判断，就可以对请求进行过滤。</p>
-<p>那怎么对输出，返回到前端的结果进行处理呢？</p>
-<p>如果需要对结果进行处理，需要捕获response。在模板中，上面函数的返回结果就是response。</p>
-<p>可以声明一个response变量，来接受返回。可以把模板中的return改为var response<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> response = restRequestHandler.HandleRESTRequest(</span><br><span class="line">                        Capabilities, resourceName, operationName, operationInput,</span><br><span class="line">                        outputFormat, requestProperties, <span class="keyword">out</span> responseProperties);</span><br></pre></td></tr></table></figure></p>
-<p>获取到response变量后对response的变量进行处理操作。</p>
-<p>最后，在该函数的末尾自己，写一个序列化的函数return回去。可以参考ESRI.ArcGIS.SoeSupport中关于序列化与反序列化的内容。</p>
-<p>开发完了就是部署了。<strong>需要注意的是，一个服务只能启用一个soi</strong>。 本人也思索了下这种情形的原因，因为soi本身没有增加服务的能力。在rest上，功能通过url提供，么有功能增加，url就保持不变。一个服务的多个soi的url是完全一样。</p>
-<p>另外两种接口的实现的思路差不多，不同的是，处理的参数的类型不同。如soap的二进制等。</p>
-<h2 id="总结">总结</h2><p>如果有SOE的开发经历，开发SOI还是很易上手的。一开始费了劲读模板中Utilities的实现，其实这部分的内容自己完全无需了解。直接用即可。</p>
-<p>更多内容和示例，参考AO的开发帮助。</p>
+<p>尝试过beta版本的开发者，会发现4.0的版本变化非常大。有两处给笔者留下非常深刻的印象：</p>
+<ol>
+<li><p>功能上千呼万唤的3D功能终于出现，以及3D与2D一致的使用性和二三维一体性。</p>
+</li>
+<li><p>API本身的可用性和封装性。</p>
+</li>
+</ol>
+<p>3.x的API 很多地方出现封装不一致的情况，导致有时候使用会让你觉着莫名其名。 而4.0的变化非常大，对开发者非常的友好。举栗子如：<strong>在3.x API中对象的属性，有些对象属性可以通过赋值语句赋值，但是有的对象必须通过setMethod()种形式去赋值</strong> 。还有如<strong>对象名称的大小写不一致统一</strong></p>
+<a id="more"></a>
+<h2 id="具体变化">具体变化</h2><p>刚看看了看新特性变化，列举了如下一些：</p>
+<ol>
+<li><p>dojo版本的变化，使用的是dojo1.10.4版本</p>
+</li>
+<li><p>3D 支持</p>
+</li>
+</ol>
+<p>真是arcgis的用户粘合度高啊，换成其他行业，这样的跳票。用户早就走光了。web 3D终于可以生产环境中用了。</p>
+<p>为了能够通二三维一体效果。比如旋转什么的。增加sceneView和mapView对象用来构建一个容器。该容器用来添加map和scene对象。map对象可以添加到二维中，也可以添加到三维中，现在需要先构建mapview 再构建map对象，将map对象添加到view对象中。</p>
+<p>除此之外，还有3d symbol对象的出现。可</p>
+<ol>
+<li>对象的属性，方法等名称或者增加删除更改</li>
+</ol>
+<p>这一部分的更改，可能会让3.x的玩家感到无法适应。但是从ArcGIS 平台而非JS API这一个点来说，还是还有意义的改变。如：将ArcGISDynamicMapServiceLayer-&gt;MapImgeLayer, 将ArcGISTileMapServiceLayer-&gt;TileLayer等。不仅书写更为简洁，最重要的一点个人认为<strong>前后端的统一，当你看到portal中的item类型为map image Layer的时候，你就知道本质是什么了。</strong></p>
+<ol>
+<li><p>模块和包的变化</p>
+<p>这个就要具体的去看了。</p>
+</li>
+<li><p>featureLayer的提升</p>
+</li>
+</ol>
+<p>featurelayer在js中是一个非常重要的图层。很多的功能在围绕这个图层展开。在4.0中有两个点觉着值得称赞:</p>
+<ul>
+<li>在前端直接通过Graphics构建featureLayer。</li>
+</ul>
+<p>前面的版本的的featurelayer只能是通过从featureservice或者mapservice的图层url构建。现在可以无需要服务就可以使用featurelayer的功能。这时候，大家也许有疑虑，这又不能编辑，有麻用呢？举个栗子，grapics不能设置render对象，而需要一个一个的setSymbol，而构建了featurelayer就可以整体render了。</p>
+<ul>
+<li>在前端通过definitionExpress 过滤</li>
+</ul>
+<p><strong>一个非常实用的功能，3.x的版本只能在从服务器端取feature的时候，通过definitionExpres构建过滤。这个时候，减少数据的传输量，而当数据load到前端来后，要过滤数据，只能通过slectFeature方法来调用。现在featurelayer已经add到map中去后，通过definitionExpress任然可以前端进行过滤。</strong> 方便好多，有么有。</p>
+<ol>
+<li>GraphicLayer的变化</li>
+</ol>
+<p>以前GraphicLayer只能添加到所有图层的最顶端，而不能在其他位置，现在graphics Layers 可以位于Layer collection的任意位置。Sounds Good。。</p>
+<ol>
+<li>对象属性变换</li>
+</ol>
+<p>这是4.0只所以叫4.0而不是3.17的原因。这个变化实在太重要了。前面也举过这个例子。以前对象属性的赋值通过构造，也可以通过object.property=value的形式，还可以通过setMethod()的形式，还掌握不了前后顺序，谁覆盖谁。4.0中这能通过构造或者直接赋值的方式进行，且无需关注彼此的顺序。</p>
+<p>除了上面这一点的变化，还有一点，就是<strong>属性变化事件监控</strong>。现在通过<strong>.watch(property，callback)</strong>方法就能属性变化， 而无需去绑定事件，。</p>
+<ol>
+<li>从4.0 开始basemap和operational layers分开了</li>
+</ol>
+<p>map对象中的allLayers是指basemap和operational layers集合。而layers特指operational layers ，而basemap单指。</p>
+<ol>
+<li><p>增加了GroupLayer</p>
+</li>
+<li><p>不再支持通过JSON构建对象，需要通过fromJSON方法</p>
+</li>
+</ol>
+<p>在以前版本中，在构造方法中可以直接输入对象的JSON形式，来构造一个对象。而现在统一使用通过fromJSON方法。</p>
+<ol>
+<li>AutoCast机制（<strong>五星好评</strong>）</li>
+</ol>
+<p>在构造一个对象的时候，通常首先需要通过require()去添加模块。然后才能实例化对象。4.0推出了autocast机制，可以直接传入对象构造参数，而无需去AMD引入模块和初始化对象，这部分工作api帮做。如构造一个symbol对象，需要color初始化color对象，以前通常的做法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> symbol = <span class="keyword">new</span> SimpleMarkerSymbol(&#123;</span><br><span class="line"> style: <span class="string">"diamond"</span>,</span><br><span class="line">  color: <span class="keyword">new</span> Color([<span class="number">255</span>, <span class="number">128</span>, <span class="number">45</span>]), <span class="comment">//这里需要使用new实例化对象</span></span><br><span class="line">  outline: <span class="keyword">new</span> SimpleLineSymbol(&#123; <span class="comment">// 这里也需要</span></span><br><span class="line">  style: <span class="string">"dash-dot"</span>,</span><br><span class="line">  color: <span class="keyword">new</span> Color([<span class="number">255</span>, <span class="number">128</span>, <span class="number">45</span>]) <span class="comment">//这里任然需要&#125;) &#125;);</span></span><br></pre></td></tr></table></figure>
+<p>而现在既可以按照惯例也可以通过autocast。可以无需require()包和显式实例化。4.0中上面的代码可以改写为：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> symbol = <span class="keyword">new</span> SimpleMarkerSymbol(&#123; </span><br><span class="line">style: <span class="string">"diamond"</span>, color: [<span class="number">255</span>, <span class="number">128</span>, <span class="number">45</span>], <span class="comment">// 无需 new Color() </span></span><br><span class="line">outline: &#123; </span><br><span class="line">style: <span class="string">"dash-dot"</span>,</span><br><span class="line"> color: [<span class="number">255</span>, <span class="number">128</span>, <span class="number">45</span>] <span class="comment">//无需 new Color() &#125; &#125;);</span></span><br></pre></td></tr></table></figure></p>
+<p>方便很多有么有。。。当然但是并不是所有的对象都可以这么做，需要在api参考中，是否有标明面<strong>autocast支持</strong></p>
+<ol>
+<li>UI方面的变化</li>
+</ol>
+<p>另一块比较重大的变化是UI的变化。这一块的变化较大。可以方便构建颜值很高的web应用程序。需要慢慢体会</p>
+<h2 id="总结">总结</h2><p>很是惊艳的更新，用起来吧。。</p>
 
             </div>
         </div>
@@ -294,7 +328,7 @@
         <div class="card">
             <div class="card-content">
                 <!-- Duoshuo Comment BEGIN -->
-                <div class="ds-thread" data-thread-key="2015/07/23/introduction/" data-title="SOI简介" data-url="gishub.info/2015/07/23/introduction/"></div>
+                <div class="ds-thread" data-thread-key="2016/05/09/jsapinews/" data-title="ArcGIS Javascript4.0 初体验" data-url="gishub.info/2016/05/09/jsapinews/"></div>
 
                 <script type="text/javascript">
                     console.log(document.querySelector('.ds-thread'));
