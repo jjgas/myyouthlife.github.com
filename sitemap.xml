@@ -1,594 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?>
-<search>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
+  <url>
+    <loc>gishub.info/2016/05/09/jsapinews/</loc>
+    <lastmod>2016-05-10T01:46:45.131Z</lastmod>
+  </url>
   
-    
-    <entry>
-      <title><![CDATA[ArcGIS Javascript4.0 初体验]]></title>
-      <url>gishub.info/2016/05/09/jsapinews/</url>
-      <content type="html"><![CDATA[<h2 id="前言">前言</h2><p>最近esri推出了ArcGIS Javascript的api4.0版本，在长时间的beta，都beta3后，终于郑重的推出了4.0 正式版本。作为开发者，长吁一口气。也许大家会有疑问，为何更新一个版本需要如此长的时间。真相只有一个，那就是：</p>
-<blockquote>
-<p>4.0版本的api是全新的，其不是3.x版本的升级，而是esri推到重来，重新开发的API。</p>
-</blockquote>
-<p>尝试过beta版本的开发者，会发现4.0的版本变化非常大。有两处给笔者留下非常深刻的印象：</p>
-<ol>
-<li><p>功能上千呼万唤的3D功能终于出现，以及3D与2D一致的使用性和二三维一体性。</p>
-</li>
-<li><p>API本身的可用性和封装性。</p>
-</li>
-</ol>
-<p>3.x的API 很多地方出现封装不一致的情况，导致有时候使用会让你觉着莫名其名。 而4.0的变化非常大，对开发者非常的友好。举栗子如：<strong>在3.x API中对象的属性，有些对象属性可以通过赋值语句赋值，但是有的对象必须通过setMethod()种形式去赋值</strong> 。还有如<strong>对象名称的大小写不一致统一</strong></p>
-<a id="more"></a>
-<h2 id="具体变化">具体变化</h2><p>刚看看了看新特性变化，列举了如下一些：</p>
-<ol>
-<li><p>dojo版本的变化，使用的是dojo1.10.4版本</p>
-</li>
-<li><p>3D 支持</p>
-</li>
-</ol>
-<p>真是arcgis的用户粘合度高啊，换成其他行业，这样的跳票。用户早就走光了。web 3D终于可以生产环境中用了。</p>
-<p>为了能够通二三维一体效果。比如旋转什么的。增加sceneView和mapView对象用来构建一个容器。该容器用来添加map和scene对象。map对象可以添加到二维中，也可以添加到三维中，现在需要先构建mapview 再构建map对象，将map对象添加到view对象中。</p>
-<p>除此之外，还有3d symbol对象的出现。可</p>
-<ol>
-<li>对象的属性，方法等名称或者增加删除更改</li>
-</ol>
-<p>这一部分的更改，可能会让3.x的玩家感到无法适应。但是从ArcGIS 平台而非JS API这一个点来说，还是还有意义的改变。如：将ArcGISDynamicMapServiceLayer-&gt;MapImgeLayer, 将ArcGISTileMapServiceLayer-&gt;TileLayer等。不仅书写更为简洁，最重要的一点个人认为<strong>前后端的统一，当你看到portal中的item类型为map image Layer的时候，你就知道本质是什么了。</strong></p>
-<ol>
-<li><p>模块和包的变化</p>
-<p>这个就要具体的去看了。</p>
-</li>
-<li><p>featureLayer的提升</p>
-</li>
-</ol>
-<p>featurelayer在js中是一个非常重要的图层。很多的功能在围绕这个图层展开。在4.0中有两个点觉着值得称赞:</p>
-<ul>
-<li>在前端直接通过Graphics构建featureLayer。</li>
-</ul>
-<p>前面的版本的的featurelayer只能是通过从featureservice或者mapservice的图层url构建。现在可以无需要服务就可以使用featurelayer的功能。这时候，大家也许有疑虑，这又不能编辑，有麻用呢？举个栗子，grapics不能设置render对象，而需要一个一个的setSymbol，而构建了featurelayer就可以整体render了。</p>
-<ul>
-<li>在前端通过definitionExpress 过滤</li>
-</ul>
-<p><strong>一个非常实用的功能，3.x的版本只能在从服务器端取feature的时候，通过definitionExpres构建过滤。这个时候，减少数据的传输量，而当数据load到前端来后，要过滤数据，只能通过slectFeature方法来调用。现在featurelayer已经add到map中去后，通过definitionExpress任然可以前端进行过滤。</strong> 方便好多，有么有。</p>
-<ol>
-<li>GraphicLayer的变化</li>
-</ol>
-<p>以前GraphicLayer只能添加到所有图层的最顶端，而不能在其他位置，现在graphics Layers 可以位于Layer collection的任意位置。Sounds Good。。</p>
-<ol>
-<li>对象属性变换</li>
-</ol>
-<p>这是4.0只所以叫4.0而不是3.17的原因。这个变化实在太重要了。前面也举过这个例子。以前对象属性的赋值通过构造，也可以通过object.property=value的形式，还可以通过setMethod()的形式，还掌握不了前后顺序，谁覆盖谁。4.0中这能通过构造或者直接赋值的方式进行，且无需关注彼此的顺序。</p>
-<p>除了上面这一点的变化，还有一点，就是<strong>属性变化事件监控</strong>。现在通过<strong>.watch(property，callback)</strong>方法就能属性变化， 而无需去绑定事件，。</p>
-<ol>
-<li>从4.0 开始basemap和operational layers分开了</li>
-</ol>
-<p>map对象中的allLayers是指basemap和operational layers集合。而layers特指operational layers ，而basemap单指。</p>
-<ol>
-<li><p>增加了GroupLayer</p>
-</li>
-<li><p>不再支持通过JSON构建对象，需要通过fromJSON方法</p>
-</li>
-</ol>
-<p>在以前版本中，在构造方法中可以直接输入对象的JSON形式，来构造一个对象。而现在统一使用通过fromJSON方法。</p>
-<ol>
-<li>AutoCast机制（<strong>五星好评</strong>）</li>
-</ol>
-<p>在构造一个对象的时候，通常首先需要通过require()去添加模块。然后才能实例化对象。4.0推出了autocast机制，可以直接传入对象构造参数，而无需去AMD引入模块和初始化对象，这部分工作api帮做。如构造一个symbol对象，需要color初始化color对象，以前通常的做法如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> symbol = <span class="keyword">new</span> SimpleMarkerSymbol(&#123;</span><br><span class="line"> style: <span class="string">"diamond"</span>,</span><br><span class="line">  color: <span class="keyword">new</span> Color([<span class="number">255</span>, <span class="number">128</span>, <span class="number">45</span>]), <span class="comment">//这里需要使用new实例化对象</span></span><br><span class="line">  outline: <span class="keyword">new</span> SimpleLineSymbol(&#123; <span class="comment">// 这里也需要</span></span><br><span class="line">  style: <span class="string">"dash-dot"</span>,</span><br><span class="line">  color: <span class="keyword">new</span> Color([<span class="number">255</span>, <span class="number">128</span>, <span class="number">45</span>]) <span class="comment">//这里任然需要&#125;) &#125;);</span></span><br></pre></td></tr></table></figure>
-<p>而现在既可以按照惯例也可以通过autocast。可以无需require()包和显式实例化。4.0中上面的代码可以改写为：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> symbol = <span class="keyword">new</span> SimpleMarkerSymbol(&#123; </span><br><span class="line">style: <span class="string">"diamond"</span>, color: [<span class="number">255</span>, <span class="number">128</span>, <span class="number">45</span>], <span class="comment">// 无需 new Color() </span></span><br><span class="line">outline: &#123; </span><br><span class="line">style: <span class="string">"dash-dot"</span>,</span><br><span class="line"> color: [<span class="number">255</span>, <span class="number">128</span>, <span class="number">45</span>] <span class="comment">//无需 new Color() &#125; &#125;);</span></span><br></pre></td></tr></table></figure></p>
-<p>方便很多有么有。。。当然但是并不是所有的对象都可以这么做，需要在api参考中，是否有标明面<strong>autocast支持</strong></p>
-<ol>
-<li>UI方面的变化</li>
-</ol>
-<p>另一块比较重大的变化是UI的变化。这一块的变化较大。可以方便构建颜值很高的web应用程序。需要慢慢体会</p>
-<h2 id="总结">总结</h2><p>很是惊艳的更新，用起来吧。。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[人类简史（一）]]></title>
-      <url>gishub.info/2016/05/07/briefhistory1/</url>
-      <content type="html"><![CDATA[<p>从读书那时开始，就一直喜欢历史。要不是被地理这洋流，那季风折磨的，肯定学文了。人算不如天算呀，最后居然学了七年地理信息，并从事地理相关工作。<br>回顾自己看的历史相关书中。<br>有两本给自己留下了很深刻的印象。<a id="more"></a>一本是《全球通史》，一本是今天要提到的《人类简史》。 如果只有一本历史书需要读的话，我想我会投给《全球通史》。一是内容大而全，时间跨度从人类的起源一直到当地社会都涵盖到，重大的历史事件全部都有涉及到。阅读这本书我的最大收获是将全球很多的事件在时间和空间上连贯起来，例如以前会觉着孔子离我们这个时代很远，而差不多同时代西方哲学家，如苏格拉底什么的，离我们很近。空间上让自己初了解当前的地缘政治格局的形成的前因后果。另外一个方面的，通史这本书的写作和编排手法都是我们觉着历史书该有的样子。看完这本书对全球历史有着全局的了解。<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/QQ%E5%9B%BE%E7%89%8720160507114443.png" alt="w"><br> 但是如果要我选一本人类社会发展相关的书籍的话，我会毫不犹豫的选择《人类简史》这本书。按照历史书籍的标准来说，其算不上是一本真正的历史类著作。从中并不能掌握和了解人类发展过程中的重大历史事件的细节。但是这个书我的冲击蛮大的。<strong>历史书居然可以这样写</strong>。非常让人惊叹。其给我的第一印象是，作者的知识是海量啊，其可以从容的从物理，化学，生理，心理各界中从容的游走。<strong>现在时兴的跨界，无非是从一个到另一个，而作者赫拉利给人感觉是没有界的。</strong> 如此年轻有如此大的知识量，真是让人兴叹。</p>
-<p>这本书发展思路很清晰，可以看出作者逻辑的缜密性。其想表达的思想很是明确，从书的副标题可以看出其旨在描述人类从力量薄弱的动物，到一跃成为食物链的顶端，到现在拥有超凡能力的神的这段过程。但是作者并没有兴趣告诉我们这个过程人类值得铭记的里程碑的事件，而是一直在探究人类的发展目的，并且一直以嘲讽的口吻在质问<strong>智人为什么会变成如此的样子，人类为什么要变成这个样子，人类到底在追求什么。从动物到上帝。人类能力不断变强，最后拥有神一样的能力，但是变的 ：</strong></p>
-<blockquote>
-<p>不负责任，贪得无厌，而且连自己想要什么都不知道，天下的危险，恐怕莫此为甚。</p>
-</blockquote>
-<p>对这些问题的思考上升到了永恒的哲学问题：<strong>人为什么而活着</strong>。这个问题，谁都给不出答案。作者也一样，故其尝试，从记录人类的发展过程，通过从各个不同的方面给出可能的解读，期待最后能够总结出什么。看完书后，也会有没有获取到答案的遗憾。</p>
-<p>本书，我觉着最为精彩的部分是作者脑洞大开的，无界混搭。以我们能理解的方式来描述各种现象或者我们当前的行为或者状态在历史发展过程中是怎么形成的。很多的地方读的让人忍俊不禁。</p>
-<p>—EOF—</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[[译]关于JavaScript 作用域你想知道的一切]]></title>
-      <url>gishub.info/2016/03/01/jsdomain/</url>
-      <content type="html"><![CDATA[<p><a href="http://toddmotto.com/everything-you-wanted-to-know-about-javascript-scope/" target="_blank" rel="external">原文连接</a></p>
-<p>在学习js的过程对闭包什么的，理解不好，偶然搜到这篇文章。豁然开朗，随翻译。</p>
-<hr>
-<p>Javacript 中有一系列作用域的概念。对于新的JS的开发人员无法理解这些概念，甚至一些经验丰富的开发者也未必能。这篇文章主要目的帮助理解JavaScript中的一些概念如：scope,closure, this, namespace, function scope, global scope, lexical scope and public/private scope. 希望从这篇文章中能回答如下的问题：<br><a id="more"></a></p>
-<ul>
-<li>什么是作用域（scope）?</li>
-<li>什么是全局(Global)和局部(Local)作用域？</li>
-<li>什么是命名空间和作用域的区别？</li>
-<li>什么是this关键字且作用域对其的影响？</li>
-<li>什么是函数作用域、词汇作用域？</li>
-<li>什么是闭包？</li>
-<li>什么是公有和私有作用域？</li>
-<li>如何理解和创建上述内容？</li>
-</ul>
-<h2 id="什么是作用域(_Scope)?">什么是作用域( Scope)?</h2><p>在JavaScript中，作用域通常是指代码的上下文(context)。能够定义全局或者局部作用域。理解JavaScript的作用域是编写强健的代码和成为一个好的开发者的前提。你需要掌握在那里获取变量和函数，在那里能够能够改变你的代码上下文的作用域以及如何能够编写快速和可读性强以及便于调试的代码。</p>
-<p>想象作用域非常简单，我们在作用域A还是作用域B？</p>
-<h2 id="什么是全局作用域（_Global_Scope）？">什么是全局作用域（ Global Scope）？</h2><p>在写第一行JavaScript代码之前，我们处在全局作用域中。此时我们定义一个变量，通常都是全局变量。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// global scopevar name = 'Todd';</span></span><br></pre></td></tr></table></figure>
-<p>全局作用域即是你的好友又是你的噩梦。学习控制作用域很简单，学会后使用全局变量就不会遇到问题（通常为命名空间冲突）。经常会听到大伙说 “全局作用域不好”，但是从没有认真想过为什么。不是全局作用域不好，而是使用问题。在创建跨作用域Modules/APIs的时候，我们必须在不引起问题的情况下使用它们。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jQuery(<span class="string">'.myClass'</span>);</span><br></pre></td></tr></table></figure>
-<p>…我们正在全局作用域中获取jQuery,我们可以把这种引用称为命名空间。命名空间通常是指作用域中可以交换word，但是其通常引用更高级别的作用域。在上面的例子中，jQuery 在全局作用域中，也称为命名空间。jQuery 作为命名空间定义在全局作用域中，其作为jQuery库的命令空间，库中的所有内容成为命名空间的子项（descendent ）。</p>
-<h2 id="什么是局部作用域（_Local_Scope）？">什么是局部作用域（ Local Scope）？</h2><p>局部作用域通常位于全局作用域后。一般来说，存在一个全局作用域，每个函数定义了自己的局部作用域。任何定义于其他函数内部的函数都有一个局部作用域，该局部作用域链接到外部函数。<br>如果定义了一个函数并在里面创建变量，那么这些变量就是局部变量。例如：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Scope A: Global scope out here</span></span><br><span class="line"><span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">// Scope B: Local scope in here&#125;;</span></span><br></pre></td></tr></table></figure>
-<p>任何的局部作用变量对全局变量来说是不可见的。除非对外暴露。如在新的作用域内定义了函数和变量，他们为当前新作用域内的变量，不能够在当前作用域外被访问到。下面为一个简单的说明示例：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'Todd'</span>;</span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// Todd&#125;;</span></span><br><span class="line"><span class="comment">// Uncaught ReferenceError: name is not defined</span></span><br><span class="line"><span class="built_in">console</span>.log(name);</span><br></pre></td></tr></table></figure>
-<p>变量<strong>name</strong>为局部变量，没有暴露给父作用域，因此出现not defined。</p>
-<h2 id="函数作用域">函数作用域</h2><p>JavaScript 中函数域为最小域范围。for与while循环或者if和switch都不能构建作用域。规则就是，新函数新域。一个创建域的简单示例如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Scope A</span></span><br><span class="line"><span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">// Scope B</span></span><br><span class="line"><span class="keyword">var</span> myOtherFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">// Scope C&#125;;&#125;;</span></span><br></pre></td></tr></table></figure>
-<p>非常方便的创建新的域和本地变量、函数和对象。</p>
-<h2 id="词汇作用域(_Lexical_Scope)">词汇作用域( Lexical Scope)</h2><p>当遇到一个函数嵌套到另一函数中，内部函数能够访问外部函数的作用域，那么这种方式叫做词汇作用域（Lexical Socpe）或者闭包，也称为成为静态作用域。最能说明该问题的示例如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Scope A</span></span><br><span class="line"><span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">// Scope B</span></span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'Todd'</span>; <span class="comment">// defined in Scope B</span></span><br><span class="line"><span class="keyword">var</span> myOtherFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">// Scope C: `name` is accessible here!&#125;;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这里只是简单的定义了myOtherFunction，并没有调用。这种调用顺序也会影响变量的输出。这里我在另一控制台中再定义和调用一个函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> name = <span class="string">'Todd'</span>;</span><br><span class="line"><span class="keyword">var</span> myOtherFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'My name is '</span> + name);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(name);</span><br><span class="line">myOtherFunction(); <span class="comment">// call function</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// Will then log out:// `Todd`</span></span><br><span class="line"><span class="comment">// `My name is Todd`</span></span><br></pre></td></tr></table></figure>
-<p>词汇作用域用起来比较方便，任何父作用域中定义的变量、对象和函数在其域作用链中都可以使用。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">'Todd'</span>;</span><br><span class="line"><span class="keyword">var</span> scope1 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">// name is available here</span></span><br><span class="line"><span class="keyword">var</span> scope2 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">// name is available here too</span></span><br><span class="line"><span class="keyword">var</span> scope3 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">// name is also available here!&#125;;</span></span><br><span class="line">&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>唯一需要注意的事情是词汇域不后项起作用，下面的方式词汇域是不起作用的：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// name = undefined</span></span><br><span class="line"><span class="keyword">var</span> scope1 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">// name = undefined</span></span><br><span class="line"><span class="keyword">var</span> scope2 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">// name = undefined</span></span><br><span class="line"><span class="keyword">var</span> scope3 = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="keyword">var</span> name = <span class="string">'Todd'</span>; <span class="comment">// locally scoped&#125;;</span></span><br><span class="line">&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>能返回对name的引用，但是永远也无法返回变量本身。</p>
-<h2 id="作用域链">作用域链</h2><p>函数的作用域由作用域链构成。我们知道，每个函数可以定义嵌套的作用域，任何内嵌函数都有一个局部作用域连接外部函数。这种嵌套关系我们可以称为链。域一般由代码中的位置决定。当解释（resolving）一个变量，通常从作用域链的最里层开始，向外搜索，直到发现要寻找的变量、对象或者函数。</p>
-<h2 id="闭包（Closures）">闭包（Closures）</h2><p>闭包和词法域（ Lexical Scope）很像。返回函数引用，这种实际应用，是一个可以用来解释闭包工作原理的好例子。在我们的域内部，我们可以返回对象，能够被父域使用。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sayHello = <span class="function"><span class="keyword">function</span> (<span class="params">name</span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> text = <span class="string">'Hello, '</span> + name;</span><br><span class="line"><span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(text);&#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>这里我们使用的闭包，使得我们的sayHello内部域无法被公共域访问到。单独调用函数并不作任何操作，因为其单纯的返回一个函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sayHello(<span class="string">'Todd'</span>); <span class="comment">// nothing happens, no errors, just silence...</span></span><br></pre></td></tr></table></figure>
-<p>函数返回一个函数，也就意味着需要先赋值再调用：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> helloTodd = sayHello(<span class="string">'Todd'</span>);</span><br><span class="line">helloTodd(); <span class="comment">// will call the closure and log 'Hello, Todd'</span></span><br></pre></td></tr></table></figure>
-<p>好吧，欺骗大家感情了。在实际情况中可能会遇到如下调用闭包的函数，这样也是行的通的。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sayHello2(<span class="string">'Bob'</span>)(); <span class="comment">// calls the returned function without assignment</span></span><br></pre></td></tr></table></figure>
-<p>Angular js 在$compile方法中使用上面的技术，可以将当前引用域传入到闭包中</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$compile(template)(scope);</span><br></pre></td></tr></table></figure>
-<p>意味着我们能够猜出他们的代码（简化）应该如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> $compile = <span class="function"><span class="keyword">function</span> (<span class="params">template</span>) </span>&#123;</span><br><span class="line"><span class="comment">// some magic stuff here// scope is out of scope, though...</span></span><br><span class="line"><span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">scope</span>) </span>&#123;<span class="comment">// access to `template` and `scope` to do magic with too&#125;;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>闭包并不一定需要返回函数。单纯在中间词汇域量的范围外简单访问变量就创造了一个闭包。</p>
-<h2 id="作用域和this关键字">作用域和this关键字</h2><p>根据函数被触发的方式不一样，每个作用域可以绑定一个不同的this值。我们经常使用this，但是我们并不是都了解其具体指代什么。 this默认是执行最外层的全局对象，windows对象。我们能够很容易的列举出不同触发函数绑定this的值也不同：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">// this = global, [object Window]&#125;;</span></span><br><span class="line">myFunction();</span><br><span class="line"><span class="keyword">var</span> myObject = &#123;&#125;;</span><br><span class="line">myObject.myMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">// this = Object &#123; myObject &#125;&#125;;</span></span><br><span class="line"><span class="keyword">var</span> nav = <span class="built_in">document</span>.querySelector(<span class="string">'.nav'</span>); <span class="comment">// &lt;nav class="nav"&gt;</span></span><br><span class="line"><span class="keyword">var</span> toggleNav = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">// this = &lt;nav&gt; element&#125;;</span></span><br><span class="line">nav.addEventListener(<span class="string">'click'</span>, toggleNav, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
-<p>在处理this值的时候，也会遇到问题。下面的例子中，即使在相同的函数内部，作用域和this值也会不同。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nav = <span class="built_in">document</span>.querySelector(<span class="string">'.nav'</span>);</span><br><span class="line"> <span class="comment">// &lt;nav class="nav"&gt;</span></span><br><span class="line"><span class="keyword">var</span> toggleNav = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">// &lt;nav&gt; element</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">// [object Window]&#125;, 1000);</span></span><br><span class="line">&#125;;</span><br><span class="line">nav.addEventListener(<span class="string">'click'</span>, toggleNav, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
-<p>发生了什么？我们创建了一个新的作用域且没有在event handler中触发，所以其得到预期的windows对象。如果想this值不受新创建的作用域的影响，我们能够采取一些做法。以前可能也你也见过，我们使用that创建一个对this的缓存引用并词汇绑定：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> nav = <span class="built_in">document</span>.querySelector(<span class="string">'.nav'</span>); <span class="comment">// &lt;nav class="nav"&gt;</span></span><br><span class="line"><span class="keyword">var</span> toggleNav = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> that = <span class="keyword">this</span>;</span><br><span class="line"><span class="built_in">console</span>.log(that); <span class="comment">// &lt;nav&gt; element</span></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(that); <span class="comment">// &lt;nav&gt; element&#125;, 1000);</span></span><br><span class="line">&#125;;</span><br><span class="line">nav.addEventListener(<span class="string">'click'</span>, toggleNav, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
-<p>这是使用this的一个小技巧，能够解决新创建的作用域问题。</p>
-<h2 id="使用-call(),_-apply()_和-bind()改变作用域">使用.call(), .apply() 和.bind()改变作用域</h2><p>有时候，需要根据实际的需求来变化代码的作用域。一个简单的例子，如在循环中如何改变作用域：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> links = <span class="built_in">document</span>.querySelectorAll(<span class="string">'nav li'</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; links.length; i++) &#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>); <span class="comment">// [object Window]&#125;</span></span><br></pre></td></tr></table></figure>
-<p>这里的this并没有指向我们的元素，因为我们没有触发或者改变作用域。我们来看看如何改变作用域（看起来我们是改变作用域，其实我们是改变调用函数执行的上下文）。</p>
-<h2 id="-call()_and_-apply()">.call() and .apply()</h2><p>.call()和.apply()方法非常友好，其允许给一个函数传作用域来绑定正确的this值。对上面的例子我们通过如下改变，可以使this为当前数组里的每个元素。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> links = <span class="built_in">document</span>.querySelectorAll(<span class="string">'nav li'</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; links.length; i++) &#123;</span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">this</span>);</span><br><span class="line">&#125;).call(links[i]);&#125;</span><br></pre></td></tr></table></figure>
-<p>能够看到刚将数组循环的当前元素通过links[i]传递进去，这改变了函数的作用域，因此this的值变为当前循环的元素。这个时候，如果需要我们可以使用this。我们既可以使用.call()又可以使用.apply()来改变域。但是这两者使用还是有区别的，其中.call(scope, arg1, arg2, arg3)输入单个参数，而.apply(scope, [arg1, arg2])输入数组作为参数。</p>
-<p>非常重要，需要注意的事情是.call() or .apply()实际已经已经取代了如下调用函数的方式调用了函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myFunction(); <span class="comment">// invoke myFunction</span></span><br></pre></td></tr></table></figure>
-<p>可以使用.call()来链式调用：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myFunction.call(scope); <span class="comment">// invoke myFunction using .call()</span></span><br></pre></td></tr></table></figure>
-<h2 id="-bind()">.bind()</h2><p>和上面不一样的是，.bind()并不触发函数，它仅仅是在函数触发前绑定值。非常遗憾的是其只在 ECMASCript 5中才引入。我们都知道，不能像下面一样传递参数给函数引用：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// works</span></span><br><span class="line">nav.addEventListener(<span class="string">'click'</span>, toggleNav, <span class="literal">false</span>);</span><br><span class="line"><span class="comment">// will invoke the function immediately</span></span><br><span class="line">nav.addEventListener(<span class="string">'click'</span>, toggleNav(arg1, arg2), <span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
-<p>通过在内部创建一个新的函数，我们能够修复这个问题（译注：函数被立即执行）：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nav.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">toggleNav(arg1, arg2);&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
-<p>但是这样的话，我们再次创建了一个没用的函数，如果这是在循环中绑定事件监听，会影响代码性能。这个时候.bind()就派上用场了，在不需要调用的时候就可以传递参数。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nav.addEventListener(<span class="string">'click'</span>, toggleNav.bind(scope, arg1, arg2), <span class="literal">false</span>);</span><br></pre></td></tr></table></figure></p>
-<p>函数并没被触发，scope可以被改变，且参数在等着传递。</p>
-<h2 id="私有和公开作用域">私有和公开作用域</h2><p>在许多的编程语言中，存在public和private的作用域，但是在javascript中并不存在。但是在JavaScript中通过闭包来模拟public和private的作用域。</p>
-<p>使用JavaScript的设计模式，如Module模式为例。一个创建private的简单方式将函数内嵌到另一个函数中。如我们上面掌握的，函数决定scope，通过scope排除全局的scope：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="comment">// private scope inside here&#125;)();</span></span><br></pre></td></tr></table></figure>
-<p>然后在我们的应用中添加一些函数：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span><br><span class="line"></span>&#123;<span class="comment">// do some stuff here&#125;;</span></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-<p>这时当我们调用函数的时候，会超出范围。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;<span class="keyword">var</span> myFunction = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">// do some stuff here&#125;;</span></span><br><span class="line">&#125;)();</span><br><span class="line">myFunction(); <span class="comment">// Uncaught ReferenceError: myFunction is not defined</span></span><br></pre></td></tr></table></figure></p>
-<p>成功的创建了一个私有作用域。那么怎么让函公有呢？有一个非常好的模式（模块模式）允许通过私有和公共作用域以及一个object对象来正确的设定函数作用域。暂且将全局命名空间称为Module，里面包含了所有与模块相关的代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// define module</span></span><br><span class="line"><span class="keyword">var</span> Module = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">return</span> &#123;myMethod: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'myMethod has been called.'</span>);&#125;&#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"><span class="comment">// call module + methods</span></span><br><span class="line">Module.myMethod();</span><br></pre></td></tr></table></figure></p>
-<p>这儿的return 语句返回了公共的方法，只有通过命名空间才能够被访问到。这就意味着，我们使用Module 作为我们的命名空间，其能够包含我们需要的所有方法。我们可以根据实际的需求来扩展我们的模块。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// define module</span></span><br><span class="line"><span class="keyword">var</span> Module = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">return</span> &#123;myMethod: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;,</span><br><span class="line">someOtherMethod: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;&#125;;&#125;)();</span><br><span class="line"><span class="comment">// call module + methods</span></span><br><span class="line">Module.myMethod();</span><br><span class="line">Module.someOtherMethod();</span><br></pre></td></tr></table></figure>
-<p>那私有方法怎么办呢？许多的开发者采取错误的方式，其将所有的函数都至于全局作用域中，这导致了对全局命名空间污染。 通过函数我们能避免在全局域中编写代码，通过API调用，保证可以全局获取。下面的示例中，通过创建不返回函数的形式创建私有域。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Module = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> privateMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">publicMethod: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;&#125;;&#125;)();</span><br></pre></td></tr></table></figure>
-<p>这就意味着publicMethod 能够被调用，而privateMethod 由于私有作用域不能被调用。这些私有作用域函数类似于： helpers, addClass, removeClass, Ajax/XHR calls, Arrays, Objects等。</p>
-<p>下面是一个有趣事，相同作用域中的对象只能访问相同的作用域，即使有函数被返回之后。这就意味我们的public方法能够访问我们的private方法，这些私有方法依然可以起作用，但是不能够在全局左右域中访问。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Module = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> privateMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"><span class="keyword">return</span> &#123;publicMethod: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="comment">// has access to `privateMethod`, we can call it:</span></span><br><span class="line"><span class="comment">// privateMethod();&#125;&#125;;&#125;)();</span></span><br></pre></td></tr></table></figure>
-<p>这提供了非常强大交互性和安全性机制。Javascript 的一个非常重要的部分是安全性，这也是为什么我们不能将所有的函数放在全局变量中，这样做易于被攻击。这里有个通过public和private返回Object对象的例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Module = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> myModule = &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> privateMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">myModule.publicMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">myModule.anotherPublicMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"><span class="keyword">return</span> myModule; <span class="comment">// returns the Object with public methods&#125;)();</span></span><br><span class="line"><span class="comment">// usage</span></span><br><span class="line">Module.publicMethod();</span><br></pre></td></tr></table></figure>
-<p>通常私有方法的命名开头使用下划线，从视觉上将其与公有方法区别开。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Module = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> _privateMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> publicMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;&#125;)();</span><br></pre></td></tr></table></figure>
-<p>当返回匿名对象的时候，通过简单的函数引用赋值，Module可以按照对象的方式来用。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> Module = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span><br><span class="line"></span>&#123;<span class="keyword">var</span> _privateMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> publicMethod = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">publicMethod: publicMethod,anotherPublicMethod: anotherPublicMethod&#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
-<p>Happy scoping!</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[无法删除切片]]></title>
-      <url>gishub.info/2016/02/29/deletefile/</url>
-      <content type="html"><![CDATA[<h2 id="背景">背景</h2><p>问题场景如下：</p>
-<ol>
-<li><p>切片放置在专门的文件服务器上，通过unc共享路径对外共享。文件服务器的OS为windows server2008R2</p>
-</li>
-<li><p>想手动更新切片服务的切片。发现同一切片服务，有的比例级别文件夹可以删除或者重命名。有的比例级别不可以。</p>
-<a id="more"></a></li>
-<li>不能删除的比例级别，删除时出现如下提示，点击继续会出现无法删除错误。<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/unable-delet-cache_1.png-size" alt=""></li>
-</ol>
-<h2 id="分析与尝试的办法">分析与尝试的办法</h2><p>通过错误提示，分析可能是如下两种原因：</p>
-<ol>
-<li>arcgis for server的账号，不具有操作切片文件夹的权限。但是无法解释部分比例级别能够删除问题。</li>
-<li>无法删除的切片文件被其他应用程序进程给占用。</li>
-</ol>
-<p>针对上面的问题：</p>
-<ol>
-<li>检查该文件夹的共享，arcgis server account是否具有都写权限。检查具有，且将arcgis server account添加到Administrators组里。</li>
-<li>使用lockhunter等软件来检查当前目录是否被应用程序占用。通过检查没有任何应用程序占锁定。</li>
-<li>通过关闭uac或者360文件粉碎等办法都无法释放该文件。</li>
-</ol>
-<h2 id="解决办法">解决办法</h2><p>最终通过如下的方式释放了文件的占用：</p>
-<p>在文件服务器上，打开【服务器管理器】，找到【共享和存储管理】，点击【管理打开的文件】。将显示的打开文件关闭即可。如下图所示：<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/unable-delet-cache_2.png-size" alt=""></p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[需要了解的geojson和操作工具]]></title>
-      <url>gishub.info/2016/02/29/geojson/</url>
-      <content type="html"><![CDATA[<h2 id="geojson对象">geojson对象</h2><ul>
-<li>Geojson的几何对象</li>
-</ul>
-<p>包含Point，Linestring，Polygon，multiPoint，MultiLinestring，MultiPolygon。Esri json 的几何对象包含 point,multipoint,polyline,polygon,Envelope</p>
-<ul>
-<li>position </li>
-</ul>
-<p>geojson 的几何对象中最小基元为position，x，y坐标构成position。其他几何对象由一个或者多个position 构成。position按照x,y,z的顺序。但是其可以包含其他任意额外值。也就是可以自己定义x,y,z意外的值。其他的几何对象由一到多个position组成。<br>标准的position如：[100.0, 0.0]</p>
-<ul>
-<li>point</li>
-</ul>
-<p>geojson中point表示的层级结构：<br>—-point<br>   —-coordinates</p>
-<p>如：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; "<span class="attribute">type</span>": <span class="value"><span class="string">"Point"</span></span>, "<span class="attribute">coordinates</span>": <span class="value">[<span class="number">100.0</span>, <span class="number">0.0</span>] </span>&#125;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>LineString&amp;multiPoint</li>
-</ul>
-<p>在geojson中linestring和multipoint的coordinates 的表示是相同的。这也是此处把两者放到一起的原因。<br>geojson 中multipoint的表示直接为{x:value,y:value}的形式。<br>geojson中LineString的表示有2到多个coordinates组成。<br>如：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; "<span class="attribute">type</span>": <span class="value"><span class="string">"LineString"</span></span>, "<span class="attribute">coordinates</span>": <span class="value">[ [<span class="number">100.0</span>, <span class="number">0.0</span>], [<span class="number">101.0</span>, <span class="number">1.0</span>] ]    </span>&#125;</span><br></pre></td></tr></table></figure></p>
-<p>esri json中polyline为2至多个点组成的paths。但是esri json 比geojson强的地方，<strong>从10.3开始支持对复杂curve对象，像贝塞尔曲线的支持</strong></p>
-<ul>
-<li>MultiLinestring &amp; polygon</li>
-</ul>
-<p>而multiLinestring的coordinates为一到多个Linestring组成。<br>geojson中polygon 为linestring的变形，即是起止点相同。</p>
-<ul>
-<li>multiPolygon</li>
-</ul>
-<p>multiPolygon用来表示带洞的多边形。使用coordinates表示的时候， <strong>外环在前面，内环在后面</strong>。且两者方向相反。虽然geojson和esri json的标准中都没有指出，但是两者都采用右手规则：</p>
-<blockquote>
-<p>内环逆时针，外环顺时针</p>
-</blockquote>
-<ul>
-<li><p>geojson中不存在envelope对象</p>
-</li>
-<li><p>project system<br>geojson 的参考使用的为CRS。其中可以使用named crs和linked crs。named crs 使用<a href="http://www.opengeospatial.org/ogcna" target="_blank" rel="external">ogc的 crs urns</a>参考系统表示字符串。linked crs就是连接一个url地址，从该地址能够retrieve 参考信息，支持prj4，ogcwkt以及esriwkt。<br>esri json 的参考使用wkid或者wkt 表示。</p>
-</li>
-</ul>
-<h2 id="Geometry_&amp;_Feature_Collection">Geometry &amp; Feature Collection</h2><p>在geojson的对象中，geometry collection 和feature collection两类。从字面意思上也容易理解。</p>
-<p>geometry collection为上面列举的几何对象组成的合集。其type为GeometryCollection 。然后包含geometries 数组。前面的multi开始的对象只能表示一种几何对象的集合。<strong>而geometry collection，可以将不同geometry 类型组成一集合。</strong><br>但是这种情况通常较少。GC参考如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123; "<span class="attribute">type</span>": <span class="value"><span class="string">"GeometryCollection"</span></span>,</span><br><span class="line">    "<span class="attribute">geometries</span>": <span class="value">[</span><br><span class="line">      &#123; "<span class="attribute">type</span>": <span class="value"><span class="string">"Point"</span></span>,</span><br><span class="line">        "<span class="attribute">coordinates</span>": <span class="value">[<span class="number">100.0</span>, <span class="number">0.0</span>]</span><br><span class="line">        </span>&#125;,</span><br><span class="line">      &#123; "<span class="attribute">type</span>": <span class="value"><span class="string">"LineString"</span></span>,</span><br><span class="line">        "<span class="attribute">coordinates</span>": <span class="value">[ [<span class="number">101.0</span>, <span class="number">0.0</span>], [<span class="number">102.0</span>, <span class="number">1.0</span>] ]</span><br><span class="line">        </span>&#125;</span><br><span class="line">    ]</span><br><span class="line">  </span>&#125;</span><br></pre></td></tr></table></figure>
-<p>在esri json中没有geometry collection对象。</p>
-<p>geojson中另一集合对象为Feature Collection。 该对象犹如esri json中的featureset对象。除了包含geometry以为还包含geometry的一些属性信息。其格式参考如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "<span class="attribute">type</span>": <span class="value"><span class="string">"FeatureCollection"</span></span>,</span><br><span class="line">  "<span class="attribute">features</span>": <span class="value">[</span><br><span class="line">    &#123;</span><br><span class="line">      "<span class="attribute">type</span>": <span class="value"><span class="string">"Feature"</span></span>,</span><br><span class="line">      "<span class="attribute">geometry</span>": <span class="value">&#123;</span><br><span class="line">        "<span class="attribute">type</span>": <span class="value"><span class="string">"Point"</span></span>,</span><br><span class="line">        "<span class="attribute">coordinates</span>": <span class="value">[<span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">      </span>&#125;</span>,</span><br><span class="line">      "<span class="attribute">properties</span>": <span class="value">&#123;</span><br><span class="line">        "<span class="attribute">name</span>": <span class="value"><span class="string">"null island"</span></span><br><span class="line">      </span>&#125;</span><br><span class="line">    </span>&#125;</span><br><span class="line">  ]</span><br><span class="line"></span>&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="geojson缺陷">geojson缺陷</h2><ol>
-<li>不能对表达拓扑关系</li>
-<li>geojson值为json对象，除了json对象中的string, number, and boolean，其他复杂对象不能表达。以date类型为例，需要转换为timestamp 的字符串形式。</li>
-<li>无法表达circle和curve集合对象。</li>
-</ol>
-<p>上面1,2 esri json也存在此类缺陷。</p>
-<p>有大神指出geojson有性能上的缺陷。这就没有尝试过了。</p>
-<h2 id="与esri_json的互操作">与esri json的互操作</h2><p>曾想自己编程实现两者之间的自由转换。通过搜索以及有很多开源通过pytho和js实现了。js实现的推荐：<br>esri 官方github中推出的geojson-utils。<br><a href="https://github.com/Esri/geojson-utils" target="_blank" rel="external">https://github.com/Esri/geojson-utils</a></p>
-<p>说道geojson的研究，这<a href="http://www.macwright.org/" target="_blank" rel="external">TOM MACWRIGHT</a>大神对geojson的研究太投入了，不仅自己弄了网站下数geojson格式的数据，还把挖掘了许多geojson转换，分析工具，在其github中列出list。地址如下：<br><a href="https://github.com/tmcw/awesome-geojson。可以好不夸张的说。史上最全geojson工具。" target="_blank" rel="external">https://github.com/tmcw/awesome-geojson。可以好不夸张的说。史上最全geojson工具。</a></p>
-<h2 id="本文参考">本文参考</h2><ol>
-<li><a href="http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Geometry_objects/02r3000000n1000000/" target="_blank" rel="external">arcgis rest api geometry object</a></li>
-<li><a href="http://geojson.org/geojson-spec.html#feature-objects" target="_blank" rel="external">geojson specification</a></li>
-<li><a href="http://www.macwright.org/2015/03/23/geojson-second-bite.html#what-you-can&#39;t-do-with-geojson" target="_blank" rel="external">macwright的博客</a></li>
-</ol>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[arcgis server site 快速恢复与重建]]></title>
-      <url>gishub.info/2015/10/21/reconstruct-site/</url>
-      <content type="html"><![CDATA[<h2 id="背景">背景</h2><p>在实际的工作中，会遇到如下的情形：</p>
-<blockquote>
-<p><strong>arcgis server服务能够启动</strong>，但是由于未知的操作原因导致site里面的某个功能出现故障。</p>
-</blockquote>
-<p>要想在短时间内，使得server能够恢复正常功能。且：</p>
-<ol>
-<li>不重新安装arcgis server</li>
-<li>不重新发布服务，<a id="more"></a>
-则可以对当前server的站点进行快速的恢复与重建。也就是相当于<strong>恢复出场设置功能</strong>。</li>
-</ol>
-<h2 id="原理">原理</h2><p>在前面的文章已经总结过服务迁移的几种情形，本篇文章为前面情形中最为简单的情况，保持各种参数都不变，具体参考如下链接：</p>
-<p>(<a href="http://www.cnblogs.com/myyouthlife/p/4255311.html" target="_blank" rel="external">http://www.cnblogs.com/myyouthlife/p/4255311.html</a>)</p>
-<h2 id="操作步骤">操作步骤</h2><p>在按照操作步骤执行前，请确定是否满足条件，参考底下的<strong>注意</strong></p>
-<ul>
-<li><p>停止arcgis server 服务。</p>
-<blockquote>
-<p>windwos  在服务管理器中，linux通过./stopserver 命令</p>
-</blockquote>
-</li>
-<li><p>对arcgisserver目录进行备份。最简单的办法是重命名该文件夹，只要不叫arcgisserver即可。</p>
-</li>
-<li><p>启动arcgis server 服务</p>
-</li>
-<li>通过manager或者admin重新创建站点</li>
-</ul>
-<blockquote>
-<p>由于arcgis server 重启后，在服务目录下 找不到arcgisserver文件夹，故会认为当前机器上不存在站点。则manager页面或者admin页面会出现提醒创建site</p>
-</blockquote>
-<ul>
-<li>创建site</li>
-</ul>
-<blockquote>
-<p>site 的用户名和密码和前面的site 保持匹配。且directory和config-store存储位置也保持匹配。在这一步可能会出现错误 “当前位置已经有站点balalala的”。请去目录下查看是否有arcgisserver目录。有手动删除，然后下一步即可。</p>
-</blockquote>
-<ul>
-<li>恢复服务<br>再次停止arcgis server服务。 将备份文件夹中的至少如下三个文件夹：config-store\services ; directories\arcgissystem\arcgisinput; directories\arcgisoutput 拷贝到新的站点，覆盖新站点对应的文件夹</li>
-</ul>
-<blockquote>
-<p>一般动态地图服务，拷贝上面三个目录即可。但是切片服务或者地理处理服务。需要将arcgiscache和arcgisjob目录拷贝过来。切莫覆盖整个config-store。</p>
-</blockquote>
-<ul>
-<li>重启服务</li>
-</ul>
-<p>重启arcgis server服务即可。</p>
-<h2 id="注意">注意</h2><p>该项恢复和重建操作，只适合于如下场景：</p>
-<ul>
-<li>在同一台机器上（不在同一台机器上，稍微麻烦，参考原理篇去操作）</li>
-<li>arcgis server版本 大于10.1 </li>
-<li>当前site的arcgis server服务能够正常的启动（不能正常启动，只能重装了arcgis server）。</li>
-<li>重建后site的管理员和用户名和旧site的保持匹配</li>
-<li>arcgisserver目录路径保持不变</li>
-<li>服务所使用到的数据源依然可以访问到</li>
-</ul>
-<h2 id="总结">总结</h2><p>通过上面的步骤，基本上百试不爽。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[arcgis server/portal 日志格式化脚本]]></title>
-      <url>gishub.info/2015/10/13/log-format-tool/</url>
-      <content type="html"><![CDATA[<h2 id="背景">背景</h2><p>通过arcgis for server manager中的logs选项卡可以查看当前站点的日志。其该页面提供了友好的日志显示方式。<br>但是在实际情况中，如arcgis server的服务宕掉后，则manager无法查看。则需要去arcgisserver的日志目录下去查看日志。该目录下为若干零散的日志文本文件，阅读起来非常费劲。这个时候对该目录下的日志文件进行友好格式化显示对快速的诊断问题非常的有帮助。</p>
-<ul>
-<li>最主要的还是阅读方便<a id="more"></a>
-<h2 id="特点">特点</h2></li>
-<li>格式化输出为excel文件，可以有效的利用excel的功能对日志进行分析</li>
-<li>智能排序，按照日志类型WARNING,INFO 等排序</li>
-</ul>
-<h2 id="原理">原理</h2><p>无非就是字符串处理。遍历C:\arcgisserver\logs\machineName\server下或者C:\arcgisportal\logs\machineName\portal 下的.log文件。使用字符串函数和正则表达式对日志进行处理，以excel输出。</p>
-<h2 id="使用">使用</h2><p><a href="https://github.com/myyouthlife/AGS_Server_admin_toolbox/blob/master/tools/log_format_tool.py" target="_blank" rel="external">点击下载脚本</a><br>复制脚本,保存为log_format_tool.py。且运行需要依赖如下环境：</p>
-<ul>
-<li>python 2.7x</li>
-<li>python包xlwt<br><a href="https://pypi.python.org/pypi/xlwt/" target="_blank" rel="external">下载地址</a></li>
-</ul>
-<p>运行脚本：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python log_format_tool.py 文件夹路径或者单个log文件路径</span><br></pre></td></tr></table></figure></p>
-<p>在log文件的目录下会生成一个Aresult.xls的结果文件。打开excel文件，可以看到第一页为索引页，如下图：<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/log-format-tool_1.png-size" alt="此处输入图片的描述"></p>
-<p>点击索引链接，查看对应的格式化文件，如下图：<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/log-format-tool_2.png-size" alt="此处输入图片的描述"></p>
-<p>是不是好看多了！！！</p>
-<h1 id="后语">后语</h1><p>最近写这些功能的感受是，做个好产品真是很难。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[arcgis server管理工具之批量发布动态地图服务]]></title>
-      <url>gishub.info/2015/08/26/batchPublishtools/</url>
-      <content type="html"><![CDATA[<p>update0918:</p>
-<ol>
-<li>修复了bug 创建链接文件出错</li>
-<li>修复了异常，在24011的警告已处理的情况下，依然出现提示</li>
-<li>将多个脚本文件，压缩成一个脚本文件。压缩后的脚本文件名称为Publishservice.py<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python Publishservice.py</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<a id="more"></a>
-<ol>
-<li>重新创建了一个repo，更改了脚本git 存放的地址，新地址如下：<br><a href="https://github.com/myyouthlife/AGS_Server_admin_toolbox/blob/master/tools/Publishservice.py" target="_blank" rel="external">BathPublishMapServices</a></li>
-</ol>
-<p>==============================================================================</p>
-<h2 id="介绍">介绍</h2><p>在日常工作中，经常碰到用户多次诉求需要批量发布服务。esri官方发布方式，只能是通过arcMap连接server去逐个发布。但是其也为开发者提供了批量发布服务两种方式：一种是通过arcpy的脚本，一种是通过其提供的arcgis admin api</p>
-<p>本工具使用arcpy的形式实现，并使用cmd 命令行执行。一开始通过tkinter ui的形式进行实现。但是最后发现tkinter太不人性，果断弃之。</p>
-<h2 id="环境">环境</h2><ul>
-<li>windows</li>
-<li>python 2.7.x</li>
-<li>arcpy 10.1+<h2 id="实现流程">实现流程</h2>实现流程即是arcgis for server的发布流程</li>
-</ul>
-<ol>
-<li>输入GIS服务器的信息<br>包括GIS服务器的IP，站点管理员用户名和密码，mxd文件所在的文件夹，当集群环境时，指定服务发布的cluster，默认是的default,服务发布到server的目录名，默认是root</li>
-<li>创建server链接文件<br>在当前脚本执行的目录下，生成一个后缀为.ags 的server链接文件</li>
-<li>遍历mxd文件<br>遍历mxd文件夹中的mxd文件，<strong>并检查该文件是否存在数据源损坏</strong></li>
-<li>生成sddraft文件</li>
-<li>过渡sd文件</li>
-<li>sd文件上传到服务器端</li>
-</ol>
-<h2 id="使用">使用</h2><p>去下面地址下载脚本。将整个BatchPublishMapService 目录下载</p>
-<p>运行cmd，cd 到BatchPublishMapService。执行如下脚本. <strong>如果出现python是无效的命令的错误。请配置环境变量</strong><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python BatchPublishMapService.py</span><br></pre></td></tr></table></figure></p>
-<p>根据命令行中的提示输入相关的参数。如下图所示：<br><img src="https://raw.githubusercontent.com/myyouthlife/gallery/master/BathPublishService/QQ%E6%88%AA%E5%9B%BE20150826161719.png" alt=""></p>
-<p>发布过程的详细信息，以及分析操作的信息输出<br><img src="https://raw.githubusercontent.com/myyouthlife/gallery/master/BathPublishService/QQ%E6%88%AA%E5%9B%BE20150826162120.png" alt=""></p>
-<p>在manager中查看批量发布的服务<br><img src="https://raw.githubusercontent.com/myyouthlife/gallery/master/BathPublishService/QQ%E6%88%AA%E5%9B%BE20150826163121.png" alt=""></p>
-<h2 id="注意">注意</h2><ol>
-<li>服务名为mxd文件名。如需要指定服务名，请将mxd文件名改为对应的文件名</li>
-<li>输入的用户名和密码为站点管理员的用户名和密码</li>
-<li>该程序没有<strong>注册数据源的功能，当数据源路径，已经注册，数据不拷贝到服务器上。如果没有注册，数据则默认拷贝到服务器</strong></li>
-<li>该工具没有打包。本想打包成exe，但是arcpy打包存在问题。</li>
-</ol>
-<h2 id="后续更新">后续更新</h2><p>由实际反馈和使用情况决定</p>
-<h2 id="下载地址">下载地址</h2><p><a href="https://github.com/myyouthlife/pythonWorkspace/tree/master/admin/admin_arcgis_server_with_arcpy_in_console/BathPublishMapServices" target="_blank" rel="external">BathPublishMapServices</a></p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[python 中几个层次的中文编码]]></title>
-      <url>gishub.info/2015/08/21/python-code/</url>
-      <content type="html"><![CDATA[<h2 id="介绍">介绍</h2><p>一直不太喜欢使用命令行，所以去年年底的技术创新中，使用TkInter来开发小工具。结果花费了大量的时间来学习TkInter ui的使用。<br>最近想整理该工具，使用命令行的形式，然后将该工具做成exe的形式进行分发。在工作一开始就遇到了编码的问题。<br>在脚本中有如下代码，用来接收用户交互式输入的ip。<br><a id="more"></a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server = raw_input(<span class="string">"请输GIS Server IP:"</span>)</span><br></pre></td></tr></table></figure></p>
-<p>在脚本文件的第一行，我已经加了如下代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding: utf-8 -*-</span></span><br></pre></td></tr></table></figure></p>
-<p>但是在windows 的控制台执行的时候，出现了乱码。有点不解，因为自己一直以来在python中，处理中文都是在文件头加入该代码。</p>
-<p>通过搜索发现，是因为在windows cmd 默认的使用的cp936的编码。既然知道使用这种编码则将编码改为如下：<br><!--more--><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*-coding: cp936-*-</span></span><br></pre></td></tr></table></figure></p>
-<p>但是得到如下的错误：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SyntaxError: encoding problem: cp936 <span class="keyword">with</span> BOM</span><br></pre></td></tr></table></figure></p>
-<p>百思不得其解。作为懒癌患者，就想绕过去。则采用如下方式，对单独字符串进行编码。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">userName=raw_input(<span class="string">"请输入站点管理员用户名:"</span>.decode(<span class="string">"utf-8"</span>).encode(<span class="string">"cp936"</span>))</span><br></pre></td></tr></table></figure></p>
-<p>这样重要在cmd中可以正常的输出中文了。但是问题来了，我的脚本中，有上百行代码有中文。每个地方都这么写，感觉偷懒不成，反被*。<br>这个时候，通过搜索。逐步的发现了问题的原因。这是因为python有几个层次的编码。分别是：</p>
-<ul>
-<li>字符串变量级别编码</li>
-<li>脚本级别的编码</li>
-<li>py文件级别的编码</li>
-<li>显示窗口的编码</li>
-</ul>
-<h2 id="字符串变量的编码">字符串变量的编码</h2><p>对单个字符串转码，可以使用：<strong>encode()</strong>编码成可以显示的。通常对字符串不能由一个编码直接转换为另一个编码。通常需要解码到Unicode，然后对unicode字符串重新的编码。比如上面的示例。</p>
-<h2 id="脚本的编码">脚本的编码</h2><p>上面通过设置 #coding：utf-8设置的就是脚本里面内容的编码。也就是该脚本文件中所有的字符串变量都采用该处设置的编码方式。</p>
-<h2 id="py文件的编码">py文件的编码</h2><p>py文件的编码，默认的是ANSI。但是也可以使用utf-8，unicode编码。</p>
-<h2 id="显示窗口的编码">显示窗口的编码</h2><p>上面的几种情况，中文在运行阶段不会出错。但是这些中文还不一定能够正常的显示。能否正常的显示，<strong>还有显示窗口支持的编码决定</strong>。比如cmd中中文支持GBK和cp936，所以代码中的字符串需要编码到这两种才可以显示。</p>
-<h2 id="测试">测试</h2><ol>
-<li>当py文件的编码为utf-8的时候。代码中唔需要添加#coding：utf-8 。脚本中的中文，在运行过程不会报错。</li>
-<li><p>当py文件的编码为ANSI的时候。如代码中没有显示的添加 <strong> -<em>-coding:utf-8 -</em>- </strong>，则当代码中出现中文的时候，运行脚本的时候。会出现如下错误</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SyntaxError: Non-ASCII character <span class="string">'\xe4'</span> <span class="keyword">in</span> file</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>当py文件设置为utf-8，而显示设置代码编码为#coding：936。则会出现ncoding problem: cp936 with BOM的错。这个时候，将py文件的编码改为ANSI即可。</p>
-</li>
-</ol>
-<h2 id="结论">结论</h2><p>通过上面的测试，有几个结论：</p>
-<ol>
-<li>编码有层次结构。文件编码影响脚本内容编码，脚本内容编码决定 其中的字符串编码。</li>
-<li>当字符串显示设置了编码的时候。字符串的编码为显示设置的编码，此时文件和脚本编码不起作用。当字符串没有显示设置编码的时候，则采用上一级编码决定。</li>
-<li>所以设置这三种编码的时候，需要确保三种编码之间能够转换。否则会出现上面列举的错误。</li>
-</ol>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[SOI简介]]></title>
-      <url>gishub.info/2015/07/23/introduction/</url>
-      <content type="html"><![CDATA[<h2 id="导语">导语</h2><p>arcgis for server10.3.1中提供了一个新的功能叫做soi。本文简单的介绍soi概念，实现，在使用过程中的注意事项。阅读本文和使用soi需要以下先决条件</p>
-<ol>
-<li>SOI是ArcGIS Server 10.3.1中新增加的功能。故开发和部署SOI需要安装ArcObject sdk 10.3.1 和 ArcGIS Server 10.3.1。<a id="more"></a></li>
-<li>了解SOE开发的流程。</li>
-</ol>
-<h2 id="什么是SOI">什么是SOI</h2><p>SOI是server object interceptors的缩写。从字面意思，是服务对象捕获器。esri对其的介绍是，用来捕获触发地图服务和影像服务内置操作的请求。</p>
-<p>也即是任何调用server服务功能的前端，发送的请求，都能在服务器端被自定义的soi应用程序捕获到。soi可以过滤到达的请求，也可以在response中添加内容返回前端。如下示意图：<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/soi1.png-size" alt="1" title="示意图"></p>
-<p>在网络开发中，有个常见的功能，就是开发防盗链。即在图片上加logo等水印。在server的出图操作中，可以运用soi，捕获每次export map返回的结果。给结果图片加上水印。</p>
-<p>除了这种情形，还有一些，比如，针对图层和功能级别的控制都可以使用soi。</p>
-<h3 id="与SOE">与SOE</h3><p>定位上，SOE是Server Object Extension 的缩写，其旨在丰富sever服务器端能够提供的功能。而SOI旨在对每次到达服务器端的请求处理。</p>
-<p>实现上，两种的底层的实现原理其实是一样的，编写dll，注册到服务器端。且两者的开发和部署的方式一样。安装了AO sdk 10.3.1的版本，在编辑中，新建项目可以看到多了一个SOI的模板。</p>
-<p>soi开发编译完后，也是生成soe文件，在site中部署即可。可以直接说SOI即是一个SOE的功能子集。在SOE的开发模板中可以实现soi的这种功能。只不过使用SOE获取参数的过程，soi直接给你参数变量。具体怎么实现，这里就按下不表。</p>
-<h2 id="SOI的开发与实现">SOI的开发与实现</h2><p>SOI支持 以下三种请求的捕捉：</p>
-<ul>
-<li>REST 请求</li>
-<li>SOAP请求</li>
-<li>OGC请求</li>
-</ul>
-<p>根据请求类型的不一样，其需要实现的接口是不一样的，上面三种请求类型，对应需要实现的接口如下：</p>
-<ul>
-<li>IRESTRequestHandler-rest的请求</li>
-<li>IRequestHandler2-soap包括arcmap发送的请求</li>
-<li>IWebRequestHandler</li>
-</ul>
-<p>三种都隶属于命名空间Esri.ArcGIS.esriSystem</p>
-<p><strong>需要注意的是，不管你想捕获的请求是上面的那一种，这三个接口的是必须实现。如你只想捕获rest请求，但是在模板除了添加IRESTRequestHandler的实现方法，其他两个接口的方法也必须实现。 而你在其他两个接口方法中，不编写任何的处理代码。</strong>   看完这段话，也许会感到诧异，为何只需要控制一种请求，而需要实现三种方式，考虑下面的情形：</p>
-<blockquote>
-<p>arcgis server发布的地图服务，既通过rest也通过soap对外提供服务能力。如果在开发某一个功能，特别是安全方面的控制的时候，如果只在rest的实现方式中添加控制代码而soap中不添加，就soap这端会存在安全漏洞。这个时候的建议就是在三种实现中都处理所有的请求</p>
-</blockquote>
-<p>三种实现方式中，rest是最为简单的实现方式。所有的参数都是json的形式。其中有两个必须实现的方式，其中下面的方法，是需要开发人员处理的：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">byte</span>[] HandleRESTRequest(<span class="keyword">string</span> capabilities, <span class="keyword">string</span> resourceName, <span class="keyword">string</span></span><br><span class="line"> operationName, <span class="keyword">string</span> operationInput, <span class="keyword">string</span> outputFormat, <span class="keyword">string</span></span><br><span class="line"> requestProperties, <span class="keyword">ref</span> <span class="keyword">string</span> responseProperties);</span><br></pre></td></tr></table></figure>
-<p>看下这个方法的中的输入参数名，是不是对soi的实现一目了然。在这个方法中，通过对传递过来的参数就行判断，就可以对请求进行过滤。</p>
-<p>那怎么对输出，返回到前端的结果进行处理呢？</p>
-<p>如果需要对结果进行处理，需要捕获response。在模板中，上面函数的返回结果就是response。</p>
-<p>可以声明一个response变量，来接受返回。可以把模板中的return改为var response<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> response = restRequestHandler.HandleRESTRequest(</span><br><span class="line">                        Capabilities, resourceName, operationName, operationInput,</span><br><span class="line">                        outputFormat, requestProperties, <span class="keyword">out</span> responseProperties);</span><br></pre></td></tr></table></figure></p>
-<p>获取到response变量后对response的变量进行处理操作。</p>
-<p>最后，在该函数的末尾自己，写一个序列化的函数return回去。可以参考ESRI.ArcGIS.SoeSupport中关于序列化与反序列化的内容。</p>
-<p>开发完了就是部署了。<strong>需要注意的是，一个服务只能启用一个soi</strong>。 本人也思索了下这种情形的原因，因为soi本身没有增加服务的能力。在rest上，功能通过url提供，么有功能增加，url就保持不变。一个服务的多个soi的url是完全一样。</p>
-<p>另外两种接口的实现的思路差不多，不同的是，处理的参数的类型不同。如soap的二进制等。</p>
-<h2 id="总结">总结</h2><p>如果有SOE的开发经历，开发SOI还是很易上手的。一开始费了劲读模板中Utilities的实现，其实这部分的内容自己完全无需了解。直接用即可。</p>
-<p>更多内容和示例，参考AO的开发帮助。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[《自控力》读书笔记]]></title>
-      <url>gishub.info/2015/04/19/selfcontrol/</url>
-      <content type="html"><![CDATA[<p>最近一周开始早上读书，刚读完了《自控力》。这本书给我带来的感觉，犹如《思考，快与慢》。如只从书名和封面来看，我一定会把它们定位鸡汤类书籍。还好在我的书单中有这本书。<br><a id="more"></a><br>在某人的影响下，心理学的书籍越来越多的出现在我的阅读清单中。但是我们两不同的是，她更关注的是家庭亲密关系而我对自我本身或者说人类的自我身心平衡的探索感兴趣。在阅读完《思考，快与慢》这本书，让我对自我一个较大的认识，就是自己是行为上的勤奋者，而思维上的懒惰者。在思维方式上，多使用的是系统一，而不是系统二，也就是很多时候，依靠思维的定式和习惯，懒于做深入的分析和推理逻辑思维。而《自控力》这本书正好从些许方面介绍了身心以及外在环境对自我意志的影响。</p>
-<p>从书中，意志力由大脑的前额皮质控制，在前额皮质中，有三大区域，分管着<strong>*我要做，我不要做和我想做</strong>，而意志力就是这几种力量协同结果。这就涉及到<strong>意志力第一法则，自我认识</strong>。如果做一件事情开启自动档，那就根本意识不到自己的决定，这也是系统一运作方式。</p>
-<p>通过训练大脑，可以增强意志力。书中提到，通过<strong>冥想</strong>让更多的血液流进前额皮质，书中给出了冥想训练的简单的技巧，呼吸训练，在短在的几分钟内，只关注自己呼吸节奏。</p>
-<p><strong>应激反应和三思而后行</strong>是人类两种天性的由思维带来行为方式。其中，三思而后更能体现意志力的作用。在书中提到，三思为后行这种方式，在生理学上通过<strong>“心理变异度”</strong>来衡量。当”心理变异度”升高表明在做着思维的控制活动。自控的活动，也就是系统二身体和大脑需要更多的能量。当处于高压或者疲倦的时候，身体和大脑缺乏能量的时候，更容易失去自控力。</p>
-<p>除了书内容，还非常喜欢书的编写结构。在每章节的结尾都列会总结本章节的内容。编排很符合《如何阅读一本书》中对好书编排的标准。</p>
-<p>在书中，为了更好的解释解释意志力，将肌肉与之对比。两者之间一个显著的特点就是都具有极限，使用多了会疲倦，坚持不懈的锻炼可以提高自控力。<strong><em>在意志处于崩溃的边缘的时候，大脑出于天性告诉我们要放弃，很多时候，自己比想象中更具有控制力</em></strong>。肌肉在长期锻炼后，会疲倦。自控力也一样，当长期处于自控下，也易疲倦。在自控的过程中，你往往容易给自己<strong>“道德的许可”</strong>，纵容自己是对美德最好的将就，会忘记自己真正的目标。向诱惑屈服。容易把支持目标的行为误认为是目标本事。如减肥者，为了减肥而进行了锻炼，会觉着自己锻炼了，减肥的目标已经达到，就会在接下来饮食中放纵。”道德许可”也会使得我们产生明天会比今天不一样的。更改坏习惯从明天开始即可。<strong>取消许可，不要用善行为放纵辩护。</strong><br>人的大脑中，在面对特定的刺激的时候，会产生<strong>多巴胺</strong>的物质，这种物质会给人希望，渴望<br>的感觉。但是多巴胺带来的快乐并不是真正的快乐，而是一种快乐的感觉。书中以当今大家沉迷社交媒体示例，我们成为 了多巴胺的奴隶。<strong>错把奖励的承若当作快乐的保障</strong>。我就想到一个例子，很多时候，想到不上班就会很开心，但是当真不上班的时候，有感觉非常的无聊。</p>
-<p>情绪低落会使人屈服于诱惑，<strong>摆脱罪恶感会让人变的更强大</strong>。由于应激反应，当人处于压力或者低落情绪下，大脑处于保护原因，会放弃对自我控制，去做它认为能够对你带来快乐的东西，比如吃东西，上网类似的。但是这些行为反而会给我们带来给多的内疚感。由于自我放弃，带来羞耻，罪恶和失控感会让你恶性循环下去。要打破这样的恶性循环的一种有效的办法是自我谅解，避免罪恶感让你再次放弃抗争。</p>
-<p>由于无法确定未来，人爱受到当前诱惑的影响，自己的折扣率增加很大。自控还受社会认同的影响，使得意志力和诱惑都具有传染性。 公开自己的意志力挑战，想象自己在意志力挑战成功后的自豪感。</p>
-<p>书中最后一章提到，我不要对自控力的影响。经常告知自己我不要，会导致自己的注意力会集中到不要的对象中去。会适得其反。</p>
-]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[postGIS安装与shp文件的存储示范]]></title>
-      <url>gishub.info/2013/03/07/postgisinstallation/</url>
-      <content type="html"><![CDATA[<p>自己装PostGIS已经有很多次了，由于没有记录，过一段时间就忘掉了。今天就写下本文记录。</p>
-<p>前言：</p>
-<p>PostGIS是关系对象型postgresql数据库的空间引擎。在安装PostGIS 前首先必须安装postgresql，然后在安装好的Application Stack Builder 中选择安装PostGIS组件。</p>
-<a id="more"></a>
-<h2 id="安装">安装</h2><p>1.安装文件</p>
-<p>下载Postgresql安装包，选择与自己操作系统相符的安装包。本文中用的postgresql ，Version9.2.3 win 64。</p>
-<p>下载安装包：<a href="http://www.enterprisedb.com/products-services-training/pgdownload#windows" target="_blank" rel="external">http://www.enterprisedb.com/products-services-training/pgdownload#windows</a></p>
-<p>2.安装步骤</p>
-<p>Step1：运行安装文件，设置安装目录</p>
-<p>Step2：到图1时，设置超级用户的密码，默认用户名为：postgres</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_1.png-size" alt="图1"></p>
-<p>Step 3：设置数据库使用的区域。如果本地使用可以默认。如图2所示。</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_2.png-size" alt=" 图2"></p>
-<p>Step4:选择安装组件的位置，如图3所示，本文是本地安装选择，第二个。</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_3.png-size" alt="图3"></p>
-<p> Step 5：安装postGIS组件，如图4所示。</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_4.png-size" alt="图 4"></p>
-<p>Step 6：下一步，设置数据库登录的用户名和密码。如图5，下一步等待完成。</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_5.png-size" alt="图 5"></p>
-<h2 id="shapefile文件入库">shapefile文件入库</h2><p>1.PostGIS Shapefile Import/Export Manager工具导入</p>
-<p> PostGIS提供了智能工具，方便快捷的将shapefile文件存入到数据库中。在入库之前，先得建立数据库。</p>
-<p>Step：开始菜单—pgAdminIII，在pgAdminIII对话框中的数据库目录树中新建数据库。如图6所示</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_6.png-size" alt="图 6"></p>
-<p>Step 2：设置新建数据库的属性。在属性页填写变量名和选择所有者，如图7所示。在定义页 选择模板和表空间。如果8所示。笔者在选择模板是没有选择template_postgis_20，在入库是总出现”没有匹配的指定名称和参数”错误。如果选择的字符编码为UTF-8，根据数据的中的编码不一样，也可能出现错误，但是可以在入库时候在做修改。</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_7.png-size" alt="图7">                                                                                       <img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_8.png-size" alt="图8"></p>
-<p>Step 3：经过前面两步已经建好了数据库，接下来的工作是将shapefile文件导入到刚建立的数据库中。点击开始中的PostGIS Shapefile Import/Export Manager，在图9所示的界面中选择，view connection details ，输入数据库连接方式，图10。点击Addfile，加载需要添加的shapefile文件。点击import按钮</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_9.png-size" alt="图 9 ">                                                                          <img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_10.png-size" alt="图 10"></p>
-<p>step 4：在导入过程会遇到编码的错误，如图11。数据库采用了UTF-8，而导入的文件为其他编码，如图13，数据库为UTF-8，而文件为LATINI1，解决办法是点击Options，修改编码方式为LATINI1.修改完成后，在导入，成功后可以在pgAdminIII 中 目录下的数据表中看到导入的数据，如图12的数据表所示。</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_11.png-size" alt="图11">　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_12.png-size" alt="图12">　</p>
-<p>2.使用命令行导入</p>
-<p>使用命令行的到入shapefile文件有两个步骤。一是根据文件生成sql，二是：将sql文件到入到库中。</p>
-<p>Step1：打开cmd，依次输入一下命令(根据自己的postsql 的安装目录)</p>
-<p>d: </p>
-<p>cd D:\Program Files\PostgreSQL\9.2\bin</p>
-<p>shp2pgsql -s -4269 d:\Links.shp jmb&gt;d:\dddd.sql  // shp2 pgsql 为将shp 文件转换为pg（postgis）支持的sql， -s是设置 srid（Spatial Reference System Identifier）jmb为数据库名 ，在d盘下可以看到到处的dddd.sql 文件。图13</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_13.png-size" alt="图13"></p>
-<p>tips： 查看诸如-s的意思，可以直接命令shp2pgsql，如图14所示</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_14.png-size" alt="图14"></p>
-<p>Step 2：通过sql语句查询器入库，打开pgAdminIII，链接数据库，点击工具条上的sql命令，然后加载生成的sql，点击执行，如下图</p>
-<p><img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_15.png-size" alt="图 15">                                                                                       <img src="http://7xovpf.com1.z0.glb.clouddn.com/postgisInstallation_16.png-size" alt="图 16"></p>
-<p> tips: 也可以直接一步运用命令存到数据库中</p>
-<h2 id="总结">总结</h2><p>网上关于这方面的资料很多。</p>
-<p>扩展阅读：<strong>POSTGIS IN ACTION</strong></p>
-]]></content>
-    </entry>
-    
+  <url>
+    <loc>gishub.info/2016/05/07/briefhistory1/</loc>
+    <lastmod>2016-05-07T03:51:56.577Z</lastmod>
+  </url>
   
+  <url>
+    <loc>gishub.info/2013/03/07/postgisinstallation/</loc>
+    <lastmod>2016-03-28T02:25:13.835Z</lastmod>
+  </url>
   
-    
-    <entry>
-      <title><![CDATA[Tags]]></title>
-      <url>gishub.info/tags/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Links]]></title>
-      <url>gishub.info/links/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
-    <entry>
-      <title></title>
-      <url>gishub.info/google118c4e31e5beb7a1.html</url>
-      <content type="html"><![CDATA[google-site-verification: google118c4e31e5beb7a1.html]]></content>
-    </entry>
-    
-    <entry>
-      <title><![CDATA[Categories]]></title>
-      <url>gishub.info/categories/index.html</url>
-      <content type="html"></content>
-    </entry>
-    
+  <url>
+    <loc>gishub.info/2015/10/21/reconstruct-site/</loc>
+    <lastmod>2016-03-28T02:25:10.092Z</lastmod>
+  </url>
   
-</search>
+  <url>
+    <loc>gishub.info/2016/02/29/deletefile/</loc>
+    <lastmod>2016-03-25T09:40:04.058Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/2015/10/13/log-format-tool/</loc>
+    <lastmod>2016-03-25T09:39:27.312Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/2015/07/23/introduction/</loc>
+    <lastmod>2016-03-25T09:37:26.447Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/2015/04/19/selfcontrol/</loc>
+    <lastmod>2016-03-25T08:36:58.920Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/2016/03/01/jsdomain/</loc>
+    <lastmod>2016-03-23T03:06:11.088Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/2015/08/26/batchPublishtools/</loc>
+    <lastmod>2016-03-22T07:49:15.100Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/links/index.html</loc>
+    <lastmod>2016-03-21T09:38:40.622Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/2016/02/29/geojson/</loc>
+    <lastmod>2016-02-29T10:15:09.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/google118c4e31e5beb7a1.html</loc>
+    <lastmod>2015-12-16T03:53:42.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/2015/08/21/python-code/</loc>
+    <lastmod>2015-12-05T13:24:04.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/tags/index.html</loc>
+    <lastmod>2015-11-15T11:43:51.000Z</lastmod>
+  </url>
+  
+  <url>
+    <loc>gishub.info/categories/index.html</loc>
+    <lastmod>2015-11-15T11:43:51.000Z</lastmod>
+  </url>
+  
+</urlset>
