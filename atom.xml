@@ -797,6 +797,58 @@
   </entry>
   
   <entry>
+    <title>ArcGIS for Server 自定义打印两种方法</title>
+    <link href="gishub.info/2013/09/17/printingtools/"/>
+    <id>gishub.info/2013/09/17/printingtools/</id>
+    <published>2013-09-17T03:20:02.000Z</published>
+    <updated>2016-06-13T03:22:53.422Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;前言&quot;&gt;前言&lt;/h2&gt;&lt;p&gt;使用web打印会遇到中文乱码，这是因为使用的打印模板中，配图要素的字体选择了非中文友好字体，如下图所示。模板字体改为中文友好字体，再执行下面的自定义模板步骤&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;&lt;img src=&quot;http://7xovpf.com1.z0.glb.clouddn.com/printingTools1.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;安装完arcgis server 在站点的utilities 目录下有printing tools的gp服务，其下面有个export web map操作，通过这个gp服务可以实现对web 地图的打印。但是经常会遇到用户反馈有需求，需要自己自定义打印模板，怎么实现。&lt;/p&gt;
+&lt;h2 id=&quot;方法一：&quot;&gt;方法一：&lt;/h2&gt;&lt;p&gt;安装完arcgis sever后，会在desktop的工具集中添加server工具箱，其中有export web map工具，通过该工具可以创建和发布打印web地图的gp服务，该服务和站点中默认的打印gp服务一样。通过对该gp服务指定自定义模板即可。&lt;/p&gt;
+&lt;p&gt;步骤如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;准备地图模板，这里制定了jmb custom.mxd 的地图打印模板&lt;br&gt;&lt;img src=&quot;http://7xovpf.com1.z0.glb.clouddn.com/printingTools2.png&quot; alt=&quot;&quot;&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ol&gt;
+&lt;li&gt;在catalog中执行export web map操作，并将gp执行的结果发布成gp 服务&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;tips：执行的时候指定自定义模板所在的文件夹，也可以指定模板。如果指定了模板，则gp服务的模板的输入参数具有默认值&lt;br&gt;&lt;img src=&quot;http://7xovpf.com1.z0.glb.clouddn.com/printingTools3.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;其中web map as json 可以为空，这里选择了默认的自己自定义的模板为默认模板。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;发布gp服务，设置参数，由于发布gp服务的时候，模板文件夹下具有多个模板，则layout template 输入参数类型为choice list&lt;br&gt;&lt;img src=&quot;http://7xovpf.com1.z0.glb.clouddn.com/printingTools4.png&quot; alt=&quot;&quot;&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;tips：发布gp服务时，可以将模板文件夹注册给服务，则模板可以不用拷贝到服务器&lt;/p&gt;
+&lt;p&gt;Step 4: gp服务调用&lt;br&gt;&lt;img src=&quot;http://7xovpf.com1.z0.glb.clouddn.com/printingTools5.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;具体rest中的参数怎么填写，参考export web map 规范，链接如下：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://resources.arcgis.com/zh-CN/help/main/10.1/index.html#//0154000004w8000000&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://resources.arcgis.com/zh-CN/help/main/10.1/index.html#//0154000004w8000000&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;方法二：&quot;&gt;方法二：&lt;/h2&gt;&lt;p&gt;~update 2016-06-13&lt;/p&gt;
+&lt;p&gt;看完方法一，是不是有种累觉不爱的感觉。方法二就简单的很了。&lt;/p&gt;
+&lt;p&gt;ArcGIS for Server的打印服务的模板都在其安装目录下存储着。默认路径如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;C:\Program Files\ArcGIS\Server\Templates\ExportWebMapTemplates&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;只需要将模板拷贝到该目录即可。是不是很简单的说？&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;前言&quot;&gt;前言&lt;/h2&gt;&lt;p&gt;使用web打印会遇到中文乱码，这是因为使用的打印模板中，配图要素的字体选择了非中文友好字体，如下图所示。模板字体改为中文友好字体，再执行下面的自定义模板步骤&lt;br&gt;
+    
+    </summary>
+    
+      <category term="arcgis server" scheme="gishub.info/categories/arcgis-server/"/>
+    
+    
+      <category term="printing Templates" scheme="gishub.info/tags/printing-Templates/"/>
+    
+      <category term="server" scheme="gishub.info/tags/server/"/>
+    
+      <category term="服务发布" scheme="gishub.info/tags/%E6%9C%8D%E5%8A%A1%E5%8F%91%E5%B8%83/"/>
+    
+  </entry>
+  
+  <entry>
     <title>postGIS安装与shp文件的存储示范</title>
     <link href="gishub.info/2013/03/07/postgisinstallation/"/>
     <id>gishub.info/2013/03/07/postgisinstallation/</id>

@@ -7,7 +7,7 @@
 
     
 
-    <title>javascript | gishub.info-where to collect gis info</title>
+    <title>ArcGIS for Server 自定义打印两种方法 | gishub.info-where to collect gis info</title>
     <meta name="author" content="suwenjiang">
     
     <meta name="description" content="gis 知识的集散地">
@@ -15,7 +15,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    
+    <meta property="og:title" content="ArcGIS for Server 自定义打印两种方法"/>
     <meta property="og:site_name" content="suwen&#39;s GISHub"/>
 
     
@@ -193,36 +193,117 @@
 
     <main>
         <div class="container main-container">
-    
-
-<nav class="page-nav hide-on-small-only">
+    <nav class="page-nav hide-on-small-only">
     <div class="nav-wrapper indigo">
-        <span class="breadcrumb">当前位置（标签）</span>
+        <span class="breadcrumb">当前位置（分类目录）</span>
         
+            
+    
+    
+    <a class="breadcrumb" href="/categories/arcgis-server/">arcgis server</a>
+
 
         
-            <a class="breadcrumb" href="/tags/javascript/">javascript</a>
+
         
     </div>
 </nav>
 
+<article>
+    <div class="card">
+        <div class="card-content">
+            
+
+            <div class="article-title">
+                
+    
+        <h1>ArcGIS for Server 自定义打印两种方法</h1>
+    
 
 
-    <div class="collection mt-0">
+            </div>
+            <time class="pink-link-context" datetime="2013-09-17T03:20:02.000Z"><a href="/2013/09/17/printingtools/">2013-09-17</a></time>
+
+            
+    <div class="tags-row">
         
-            <a href="/2016/05/09/jsapinews/" class="collection-item grey-text text-darken-1">
-                <time datetime="2016-05-09T09:45:59.000Z">2016-05-09</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                ArcGIS Javascript4.0 亮点摘录
-            </a>
+            <a href="/tags/printing-Templates/" class="chip pink lighten-1">printing Templates</a>
         
-            <a href="/2016/03/01/jsdomain/" class="collection-item grey-text text-darken-1">
-                <time datetime="2016-03-01T08:48:04.000Z">2016-03-01</time>
-                <span>&nbsp;&nbsp;&nbsp;</span>
-                [译]关于JavaScript 作用域你想知道的一切
-            </a>
+            <a href="/tags/server/" class="chip pink lighten-1">server</a>
+        
+            <a href="/tags/服务发布/" class="chip pink lighten-1">服务发布</a>
         
     </div>
+
+
+            <div class="toc pink-link-context hide-on-med-and-down">
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#前言"><span class="section table-of-contents-text">前言</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#方法一："><span class="section table-of-contents-text">方法一：</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#方法二："><span class="section table-of-contents-text">方法二：</span></a></li></ol>
+</div>
+
+
+            <div class="entry pink-link-context">
+                <h2 id="前言">前言</h2><p>使用web打印会遇到中文乱码，这是因为使用的打印模板中，配图要素的字体选择了非中文友好字体，如下图所示。模板字体改为中文友好字体，再执行下面的自定义模板步骤<br><a id="more"></a><br><img src="http://7xovpf.com1.z0.glb.clouddn.com/printingTools1.png" alt=""></p>
+<p>安装完arcgis server 在站点的utilities 目录下有printing tools的gp服务，其下面有个export web map操作，通过这个gp服务可以实现对web 地图的打印。但是经常会遇到用户反馈有需求，需要自己自定义打印模板，怎么实现。</p>
+<h2 id="方法一：">方法一：</h2><p>安装完arcgis sever后，会在desktop的工具集中添加server工具箱，其中有export web map工具，通过该工具可以创建和发布打印web地图的gp服务，该服务和站点中默认的打印gp服务一样。通过对该gp服务指定自定义模板即可。</p>
+<p>步骤如下：</p>
+<ol>
+<li>准备地图模板，这里制定了jmb custom.mxd 的地图打印模板<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/printingTools2.png" alt=""></li>
+</ol>
+<ol>
+<li>在catalog中执行export web map操作，并将gp执行的结果发布成gp 服务</li>
+</ol>
+<p>tips：执行的时候指定自定义模板所在的文件夹，也可以指定模板。如果指定了模板，则gp服务的模板的输入参数具有默认值<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/printingTools3.png" alt=""></p>
+<p>其中web map as json 可以为空，这里选择了默认的自己自定义的模板为默认模板。</p>
+<ol>
+<li>发布gp服务，设置参数，由于发布gp服务的时候，模板文件夹下具有多个模板，则layout template 输入参数类型为choice list<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/printingTools4.png" alt=""></li>
+</ol>
+<p>tips：发布gp服务时，可以将模板文件夹注册给服务，则模板可以不用拷贝到服务器</p>
+<p>Step 4: gp服务调用<br><img src="http://7xovpf.com1.z0.glb.clouddn.com/printingTools5.png" alt=""></p>
+<p>具体rest中的参数怎么填写，参考export web map 规范，链接如下：</p>
+<p><a href="http://resources.arcgis.com/zh-CN/help/main/10.1/index.html#//0154000004w8000000" target="_blank" rel="external">http://resources.arcgis.com/zh-CN/help/main/10.1/index.html#//0154000004w8000000</a></p>
+<h2 id="方法二：">方法二：</h2><p>~update 2016-06-13</p>
+<p>看完方法一，是不是有种累觉不爱的感觉。方法二就简单的很了。</p>
+<p>ArcGIS for Server的打印服务的模板都在其安装目录下存储着。默认路径如下：</p>
+<blockquote>
+<p>C:\Program Files\ArcGIS\Server\Templates\ExportWebMapTemplates</p>
+</blockquote>
+<p>只需要将模板拷贝到该目录即可。是不是很简单的说？</p>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+    <section id="comment">
+        <div class="card">
+            <div class="card-content">
+                <!-- Duoshuo Comment BEGIN -->
+                <div class="ds-thread" data-thread-key="2013/09/17/printingtools/" data-title="ArcGIS for Server 自定义打印两种方法" data-url="gishub.info/2013/09/17/printingtools/"></div>
+
+                <script type="text/javascript">
+                    console.log(document.querySelector('.ds-thread'));
+                    var duoshuoQuery = {
+                        short_name: 'myyouthlife'
+                    };
+                    (function() {
+                        var ds = document.createElement('script');
+                        ds.type = 'text/javascript';
+                        ds.async = true;
+                        ds.src = (document.location.protocol == 'https:'
+                            ? 'https:'
+                            : 'http:') + '//static.duoshuo.com/embed.js';
+                        ds.charset = 'UTF-8';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+                    })();
+                </script>
+                <!-- Duoshuo Comment END -->
+            </div>
+        </div>
+    </section>
+
 
 
 </div>
