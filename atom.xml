@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="gishub.info/"/>
-  <updated>2016-05-22T05:17:02.855Z</updated>
+  <updated>2016-06-14T02:06:28.522Z</updated>
   <id>gishub.info/</id>
   
   <author>
@@ -14,6 +14,77 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>快速了解mongodb的空间操作</title>
+    <link href="gishub.info/2016/06/14/mongodb-spatial-query/"/>
+    <id>gishub.info/2016/06/14/mongodb-spatial-query/</id>
+    <published>2016-06-14T01:50:21.000Z</published>
+    <updated>2016-06-14T02:06:28.522Z</updated>
+    
+    <content type="html">&lt;p&gt;遥想当年做毕业设计的时候，为了写论文而写论文，定了个mongodb 与oracle的互操作。当时使用的mongodb是无法对空间数据进行操作的。当时单纯的使用GDAL将shapelife文件转换文本表达以mongodb进行存储。&lt;/p&gt;
+&lt;p&gt;而现在看mongodb的空间操作，虽然没有办法和ArcSDE和PostGIS相比，但是比没有强呀。&lt;/p&gt;
+&lt;p&gt;文中使用的mongodb为2.4版本，robomongo0.9&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;空间数据模型&quot;&gt;空间数据模型&lt;/h2&gt;&lt;p&gt;mongodb中有两类空间平面，一个是spherical，也是我们GIS中所熟悉的，另外一类就是纯粹的Euclidean平面。&lt;/p&gt;
+&lt;p&gt;针对Eulidena平面下的空间数据使用legacy coordinate pairs的形式进行表达。其格式为[x,y]形式。表达polygon什么的需要和monodb的Geometry Specifiers 来配合，如&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;$polygon : [ [ 0 , 0 ] , [ 0 , 1 ] , [ 1 , 1 ] , [ 1 , 0 ] ]&lt;/code&gt;&lt;br&gt;另一种是地球相关的面，采用的geojson的形式。mongodb从2.4开始支持geojson，到2.6 geojson的几何类型基本可以全部表达。&lt;/p&gt;
+&lt;p&gt;有关geojson标准可以参考：&lt;a href=&quot;http://gishub.info/2016/02/29/geojson/&quot;&gt;需要了解的geojson和操作工具&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本文肯定是使用geojson的。。&lt;/p&gt;
+&lt;h2 id=&quot;空间索引&quot;&gt;空间索引&lt;/h2&gt;&lt;p&gt;mongodb的空间索引有三类，针对不同的情形。有的操作是必须要指定采用的索引类型。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.mongodb.com/manual/core/2d/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;2d Index&lt;/a&gt;针对mongodb 2.2 以前的版本数据使用legancy coordinate pairs存储。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.mongodb.com/manual/core/2dsphere/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;2d Sphere Index &lt;/a&gt; 用来对sphere的数据进行构建索。本文我们肯定是使用这个索引得。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://docs.mongodb.com/manual/core/geohaystack/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Geo Haystack&lt;/a&gt;适合用来对小范围的数据进行索引。在Euclide平面中使用的效率比sphere的效率高。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;数据准备&quot;&gt;数据准备&lt;/h2&gt;&lt;h3 id=&quot;创建geojson数据&quot;&gt;创建geojson数据&lt;/h3&gt;&lt;p&gt;为了简便，通过 &lt;a href=&quot;http://geojson.io&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;geojson.io&lt;/a&gt;在线网站中生成本次实验的geojson。数据情形如下图所示&lt;br&gt;&lt;img src=&quot;http://7xovpf.com1.z0.glb.clouddn.com/mongodb1.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;mongodb将数据入库&quot;&gt;mongodb将数据入库&lt;/h3&gt;&lt;p&gt;建立了三个collection，并将每个feature以一个document的形式插入。Geometry的key为“loc”。如下所示&lt;br&gt;&lt;figure class=&quot;highlight xquery&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.testpoint.&lt;span class=&quot;keyword&quot;&gt;insert&lt;/span&gt;(&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&#39;point1&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &lt;span class=&quot;string&quot;&gt;&quot;loc&quot;&lt;/span&gt;:&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#123; &lt;span class=&quot;string&quot;&gt;&quot;type&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&quot;Point&quot;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;&quot;coordinates&quot;&lt;/span&gt;: [&lt;span class=&quot;number&quot;&gt;100.0&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;.&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;] &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &amp;#125;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;结果如下图所示。&lt;br&gt;&lt;img src=&quot;http://7xovpf.com1.z0.glb.clouddn.com/mongodb2.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;空间查询操作&quot;&gt;空间查询操作&lt;/h2&gt;&lt;p&gt;目前mongodb的空间查询类操作只包含如下三大类：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;包含查询（$geoWithin）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;查询名称polgon1的polygon所包含的点：&lt;br&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; polygon=db.testpolygon.findOne(&amp;#123;&lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&quot;polgon1&quot;&lt;/span&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;db.testpoint.find(&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   loc : &amp;#123; $geoWithin : &amp;#123; $geometry : polygon.loc &amp;#125; &amp;#125; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;$geoWithin 可不需要指定spatial index，但是为了效率，建议对空间字段建立index&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;相交查询($geoIntersects)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;选择与某个多边形相交的几何对象。比如，选中与面相交的线&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; polygon=db.testpolygon.findOne(&amp;#123;&lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&quot;polgon1&quot;&lt;/span&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;db.testline.find(&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;loc:&amp;#123; $geoIntersects:&amp;#123;$geometry:polygon.loc&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;同样其不需要构建索引，但是从效率的角度建议构建。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;临近查询（$near，$nearSphere）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;用来查找离某个点一定距离的点。&lt;strong&gt;需要构建索引&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt; 使用&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.testpoint.ensureIndex(&lt;span class=&quot;string&quot;&gt;&quot;2dsphere&quot;&lt;/span&gt;)&lt;span class=&quot;string&quot;&gt;``&lt;/span&gt;&lt;span class=&quot;string&quot;&gt;`创建索引。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;然后使用$neare 操作符号进行选择，如选择离点id1，最大不超过500公里的点。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;var point=db.testpoint.findOne({“name”:”id1”})&lt;br&gt;db.testpoint.find({&lt;br&gt;    loc: {$near: {&lt;br&gt;           $geometry: point.loc,&lt;br&gt;           $maxDistance: 500000,&lt;br&gt;        }}&lt;br&gt;    })&lt;br&gt;```&lt;br&gt;返回的记录按照距离的从近到远进行排列。&lt;/p&gt;
+&lt;h2 id=&quot;更多参考&quot;&gt;更多参考&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://docs.mongodb.com/manual/applications/geospatial-indexes/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Geospatial Indexes and Queries&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://blog.mlab.com/2014/08/a-primer-on-geospatial-data-and-mongodb/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;A Primer on Geospatial Data and MongoDB&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://tugdualgrall.blogspot.jp/2014/08/introduction-to-mongodb-geospatial.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;tug’s blog introduction-to-mongodb-geospatial&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;遥想当年做毕业设计的时候，为了写论文而写论文，定了个mongodb 与oracle的互操作。当时使用的mongodb是无法对空间数据进行操作的。当时单纯的使用GDAL将shapelife文件转换文本表达以mongodb进行存储。&lt;/p&gt;
+&lt;p&gt;而现在看mongodb的空间操作，虽然没有办法和ArcSDE和PostGIS相比，但是比没有强呀。&lt;/p&gt;
+&lt;p&gt;文中使用的mongodb为2.4版本，robomongo0.9&lt;br&gt;
+    
+    </summary>
+    
+      <category term="opensource" scheme="gishub.info/categories/opensource/"/>
+    
+      <category term="database" scheme="gishub.info/categories/opensource/database/"/>
+    
+    
+      <category term="database" scheme="gishub.info/tags/database/"/>
+    
+      <category term="mongodb" scheme="gishub.info/tags/mongodb/"/>
+    
+      <category term="opensource" scheme="gishub.info/tags/opensource/"/>
+    
+  </entry>
   
   <entry>
     <title>人类简史（二）</title>
