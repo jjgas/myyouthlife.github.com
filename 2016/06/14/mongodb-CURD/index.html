@@ -7,7 +7,7 @@
 
     
 
-    <title>人类简史（二） | gishub.info-where to collect gis info</title>
+    <title>Mongodb文档的CURD操作 | gishub.info-where to collect gis info</title>
     <meta name="author" content="suwenjiang">
     
     <meta name="description" content="gis 知识的集散地">
@@ -15,7 +15,7 @@
     
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <meta property="og:title" content="人类简史（二）"/>
+    <meta property="og:title" content="Mongodb文档的CURD操作"/>
     <meta property="og:site_name" content="suwen&#39;s GISHub"/>
 
     
@@ -208,7 +208,7 @@
             
     
     
-    <a class="breadcrumb" href="/categories/Reading-Notes/">Reading Notes</a>
+    <a class="breadcrumb" href="/categories/opensource/">opensource</a><a class="breadcrumb" href="/categories/opensource/database/">database</a>
 
 
         
@@ -225,60 +225,112 @@
             <div class="article-title">
                 
     
-        <h1>人类简史（二）</h1>
+        <h1>Mongodb文档的CURD操作</h1>
     
 
 
             </div>
-            <time class="pink-link-context" datetime="2016-05-22T05:15:21.000Z"><a href="/2016/05/22/briefhistory2/">2016-05-22</a></time>
+            <time class="pink-link-context" datetime="2016-06-14T08:38:38.000Z"><a href="/2016/06/14/mongodb-CURD/">2016-06-14</a></time>
 
             
     <div class="tags-row">
         
-            <a href="/tags/历史/" class="chip pink lighten-1">历史</a>
+            <a href="/tags/CURD/" class="chip pink lighten-1">CURD</a>
         
-            <a href="/tags/阅读/" class="chip pink lighten-1">阅读</a>
+            <a href="/tags/database/" class="chip pink lighten-1">database</a>
+        
+            <a href="/tags/mongodb/" class="chip pink lighten-1">mongodb</a>
+        
+            <a href="/tags/opensource/" class="chip pink lighten-1">opensource</a>
         
     </div>
 
 
             <div class="toc pink-link-context hide-on-med-and-down">
-    
+    <ol class="section table-of-contents"><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#插入document"><span class="section table-of-contents-text">插入document</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#查询document"><span class="section table-of-contents-text">查询document</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#update"><span class="section table-of-contents-text">update</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#delete操作"><span class="section table-of-contents-text">delete操作</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#总结"><span class="section table-of-contents-text">总结</span></a></li><li class="section table-of-contents-item section table-of-contents-level-2"><a class="section table-of-contents-link" href="#更多参考"><span class="section table-of-contents-text">更多参考</span></a></li></ol>
 </div>
 
 
             <div class="entry pink-link-context">
-                <p>人类简史（二）</p>
-<p>专注力越来越弱了。现在要想安静的写个800字文章，真是太难了。继续上上周未完的吧。</p>
-<p>上一篇自己yy作者对这本书的开展，其实作者在第一章中已经告诉了。</p>
+                <p>从当年写毕业论文学习如何使用mongodb，到现在陆陆续续的在使用。一直都没有系统的去看看mongodb的文档。由于moogoose的原因，最近又在操作<br>mongodb，想想磨刀不误砍柴工，看看文档，动动笔记录记录。</p>
+<p>在mongodb中有db，collection，document数据模型，今天先来说说mongodb的基元document的操作。mongodb所有的操作都围绕document来做。<strong>document相当于<br>传统关系型数据库中的row</strong></p>
 <a id="more"></a>
-<blockquote>
-<p>人类的历史上，有三大重要革命，”认知革命”，”农业革命“和”科学革命“。本书的内容就是讲述这三大革命如何改变人类和其他生活。</p>
-</blockquote>
-<p>从这个书的开展，能领会到作者强劲的Analytic writing。分析性写作第一次知道名字，是在GRE学习。曾经在准备GRE考试的时候，苦求过，然而到现在依然不得法。随着年龄的增长，越发喜欢这种<strong>思维的美</strong>。</p>
-<p><strong>像我这种功利读书的人，能从一本书中获取不同学科的知识，是我喜欢这本书的另一个原因。（自己还是处于读书的入门阶段呀。）</strong> 不需要去读其他学科的专著，就能弄清楚一些概念性的东西，比如，</p>
-<blockquote>
-<p>同一物种，是指彼此交配能够产生下一代；从同一个祖先演化而来的不同物种，属于同一个属。而具有相同祖先的不同的属，有可以归为一个科。</p>
-</blockquote>
-<p>当然这种收获，有麻用？答曰：装逼呀。</p>
-<p>该书的翻译质量非常的高，从字里行间能够看出这是一本译本，有很多中文写作中很少有的方式，如指代等。但是意思的表达翻译的又很地道，没有“译制片”的感觉。</p>
-<p><strong>除了，能够获取一些知识，这本书还颠覆我们的一些常见误区。这是喜欢这本书的再一个原因。作者到处带我们critical thinking</strong>，批判性思维又一个我们教育中，很少涉及的东西。这本书中，作者作了很多这种批判性的思考，在我们这种外人看来就是“脑洞大开”。 如，关于智人的演化问题，很多的历史书籍都是，从某个时间点，人有猿猴到直立到balala的。会让我们，至少是我，误认为这种变化是，在某个点，一瞬间完成的，在这个点<em>地球上只有单一人种</em>。其实不是，细思我们也知道不是。这种变化，是逐步的，不适合当时环境的，逐渐被淘汰。</p>
-<p>再来看，本书的另一大魅力地方，<strong>就是跨界混搭。</strong> </p>
-<blockquote>
-<p>大脑是个庞大的负担。能量消耗惊人，为了获得更多的能量，需要花费跟多的时间去寻找食物，其次就是肌肉的退化萎缩。就像是<em>政府把国防预算拨给了教育，二头肌所需要的能量给了大脑神经元。</em></p>
-</blockquote>
-<p>人类的直立行走，可以有助于捕猎，但是就不得不面对<em>背痛、脖子僵硬</em>。直立行走，是产道变窄，为了顺利的生产，人类进化为婴儿早产，早产的婴儿头部小，可以顺利的通过。但是这种早产，对人类的社会影响是巨大的。。这里的推论太有意思了。。<br>因为早产，一个目前单独照顾孩子，不现实，故人类发展突出的社交技巧，出生后不像其他动物可以短时间离开父母，长时间照顾的过场中，人类有了可以塑造的可能。各民族可以将自己的文化什么的流传下去。这种方式的表达，在书中到处都是，书的趣味性大大的增加了。。</p>
-<p>update20160522：</p>
+<h2 id="插入document">插入document</h2><p>类似关系型数据库，一条条的row插入到table中，而NoSql中的一个个document 插入到collection中。</p>
+<p>插入document的语句有如下几种：</p>
+<ol>
+<li><code>db.collection_name.insert()</code></li>
+<li><code>db.collection_name.insertOne()</code></li>
+<li><code>db.collection_name.insertMany()</code></li>
+</ol>
+<p>通过字面意思也知道这几种插入方法的不同。其中1既可以插入一个document，也可以插入多个。而2,3是后续版本中添加的。mongodb的所有的写操作都是<strong>原子（atomic）</strong>。</p>
+<p>mongodb的document都包含一个 <strong>_id</strong> 字段，该字段类似于关系型数据库中的<strong>primary<br>key</strong>。其中_id可以在插入文档候自定义赋值，如<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.some_col.insert(&#123;<span class="string">"_id"</span>:<span class="number">6</span>,</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">'suwen'</span></span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure></p>
+<p>也可以不显示指明，如果没有显示指明则mongodb会根据时间戳+pid+随机数信息生成一个类型为objectid的_id 值。如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.some_col.insert(&#123;<span class="string">"name"</span>:<span class="string">'suwen'</span>&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>通过查询，其_id值为5750f3b164cfe92c28a4c2b1。且mongodb含有从 _id中提取时时间戳信息的命令。</p>
+<h2 id="查询document">查询document</h2><p>在mongo中document的查询语句如下：</p>
+<ol>
+<li><code>db.collection.find(&lt;query&gt;,&lt;projection&gt;)</code></li>
+<li><code>db.collection.findOne(&lt;query&gt;,&lt;projection&gt;)</code></li>
+</ol>
+<p>其中query为查询语句，而为optional参数对查询返回的<strong>字段</strong>进行过滤。可以控制查询结果的传输量。</p>
+<p>其中findOne可以直接获取一个document，而find获取多个document。则在获取document的中的某个字段值的时候需要注意。如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dd=db.testpoint.findOne(&#123;name:<span class="string">"id1"</span>&#125;)</span><br><span class="line">dd.name <span class="comment">// id1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> dd=db.testpoint.find(&#123;name:<span class="string">"id1"</span>&#125;)</span><br><span class="line"></span><br><span class="line">dd.name <span class="comment">//no result to show</span></span><br><span class="line">dd[<span class="number">0</span>].name <span class="comment">//id1</span></span><br></pre></td></tr></table></figure>
+<p><strong>当find()不添加任何参数或者参数为{}的时候，表示查询当前collection中的所有document。</strong></p>
 <ul>
-<li>7w-1.2 w年前的这段时间，书中成为“认知革命”。</li>
+<li>project</li>
 </ul>
-<p>在这个阶段中出现了新的<strong>思维和沟通方式，也就是认知革命。</strong>具体原因不可知，但是非常有可能是<strong>偶然的基因突变</strong>。这种突变带来了新的语言，这种人类的语言，真正独特的功能在于<strong>传递一些根本不存在的东西。</strong>通过虚构故事的方式来传递。</p>
+<p>project格式如下：{field1：,field2:..}其中字段值只有<strong>0和1两类</strong>。其中0表示字段排除，1表示字段包含。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.testpoint.findOne(&#123;name:&#34;id1&#34;&#125;,&#123;_id:0&#125;) //&#26597;&#35810;&#32467;&#26524;&#19981;&#21253;&#21547;_id &#20449;&#24687;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>query</li>
+</ul>
+<p>mongo提供了非常丰富的query，来应用不同场景的查询。</p>
+<p>大体分为下面几类：</p>
+<p>1.简单相等查询</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.some_col.find(&#123;&#34;name&#34;:&#34;suwen&#34;&#125;)</span><br></pre></td></tr></table></figure>
+<p>AND条件查询,直接多个字段<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.some_col.find(&#123;&#34;name&#34;:&#34;suwen&#34;,&#39;gender&#39;:&#39;male&#39;&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>其他的OR条件或者比较查询需要与操作符进搭配使用。</p>
+<p>2.与操作符结合判断</p>
+<p>mongod提供了一些犹如关系型数据库中的操作符$in,$lt等。如<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.some_col.find(&#123;<span class="string">"name"</span>:&#123;$<span class="keyword">in</span>:[<span class="string">"suwen,mb"</span>]&#125;&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>用法和关系型数据库的in操作符一样。后面会专门写篇文章来学习这些关键字。</p>
+<p>3.嵌套和引用文档的查询<br>mongodb 通过嵌套和应用构建复杂的document，这两者怎么查询呢？</p>
+<p>有如下document：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">db.users.insert([&#123;</span><br><span class="line">    username: <span class="string">'suwen'</span>,</span><br><span class="line">    contact: &#123; <span class="comment">//嵌套document</span></span><br><span class="line">        phone: <span class="string">'111111111'</span>,</span><br><span class="line">        email: <span class="string">'1111@qq.com'</span>&#125;,</span><br><span class="line">    department: &#123; <span class="comment">//嵌套document</span></span><br><span class="line">        level: <span class="number">0</span>,</span><br><span class="line">        title: <span class="string">"giser"</span>&#125;,</span><br><span class="line">    </span><br><span class="line">    hobby: [<span class="string">'eating'</span>,<span class="string">'sleeping'</span>,<span class="string">'hit doudou'</span>] <span class="comment">//Array</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    username: <span class="string">'jmb'</span>,</span><br><span class="line">    contact: &#123; <span class="comment">//嵌套document</span></span><br><span class="line">        phone: <span class="string">'222222222'</span>,</span><br><span class="line">        email: <span class="string">'2222@qq.com'</span>&#125;,</span><br><span class="line">    department: &#123; <span class="comment">//嵌套document</span></span><br><span class="line">        level: <span class="number">0</span>,</span><br><span class="line">        title: <span class="string">"loser"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    hobby: [<span class="string">'sleeping'</span>,<span class="string">'eating'</span>] <span class="comment">//Array</span></span><br><span class="line">&#125;])</span><br></pre></td></tr></table></figure></p>
+<p>嵌套document的查询有两种方式：</p>
+<p>一是<strong>文档完全匹配的形式</strong></p>
+<p>如find上面的记录需要使用如下语句：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(</span><br><span class="line">&#123;</span><br><span class="line"> contact: &#123; </span><br><span class="line">        phone: <span class="string">'111111111'</span>,</span><br><span class="line">        email: <span class="string">'1111@qq.com'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>那么如果我只想以电话作为条件是不是可以使用如下这种形式？？？？<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(</span><br><span class="line">&#123;</span><br><span class="line"> contact: &#123; </span><br><span class="line">        phone: <span class="string">'111111111'</span></span><br><span class="line">       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;) <span class="comment">//no results</span></span><br></pre></td></tr></table></figure></p>
+<p>执行完，发现并没有结果出现。。这也是为何这种方式叫文档完全匹配。如果只使用嵌套文档中的某个字段作为条件来过滤，则需要使用如下第二种方式：</p>
+<p>二是<strong>通过dot notation的形式</strong>，该形式的格式为<code>&lt;document&gt;.&lt;field&gt;</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(</span><br><span class="line">&#123;</span><br><span class="line"> <span class="string">'contact.phone'</span>:<span class="string">'111111111'</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>4.Array的查询</p>
+<p>有了上面几个基础，再来理解Array的查询就容易多了。 document的字段值可能是一个Array类型。如何对Array的值进行判断，从而来筛选document呢？</p>
+<p>一是完全匹配形式。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(&#123; hobby: [<span class="string">'eating'</span>,<span class="string">'sleeping'</span>,<span class="string">'hit doudou'</span>]&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>同样其为整个Array的匹配。只有全部匹配的Array才能筛选出。</p>
+<p>二是匹配Array中的某个元素<br>针对Array中的某个元素的匹配，可以使用犹如普通的筛选语句。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(&#123; hobby: &#39;hit doudou&#39;&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>除此之外，array还有一种常见方式<br>三对Array某个位置的元素进行匹配<br>如对array的index的value为’eating’的进行匹配。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.users.find(&#123; &#34;hobby.0&#34;: &#39;eating&#39;&#125;)</span><br></pre></td></tr></table></figure>
+<p>Array除此上面三种方式，还有更为复杂条件匹配。此处按下不表。</p>
+<h2 id="update">update</h2><p>这个就厉害了。</p>
+<ol>
+<li><code>db.collection.update()</code></li>
+<li><code>db.collection.updateOne()</code></li>
+<li><code>db.collection.updateMany()</code></li>
+<li><code>db.collection.replaceOne()</code></li>
+</ol>
+<p>其中<code>upate(&lt;query&gt;,&lt;update&gt;,&lt;upsert&gt;,&lt;multi&gt;,&lt;writeConcern&gt;)</code>方法用来<code>更新或者替代</code>匹配的文档。其中前两个参数为必填参数。</p>
+<p>query为匹配的条件filter，update为更新的内容，<code>upsert</code>这个参数厉害了，当通过query查找没有匹配的document的且upsert参数为true，这个时候，将会在collection中去insert一条document。而multi指定是否同时更新多个document。</p>
+<p>前面说到update()用来更新或者替换，那么问题来了，什么时候是对document的更新，什么是替换整个document。</p>
 <blockquote>
-<p>重点不在于能够想象，更重要的是一起想象，编织出共同的虚构故事。</p>
+<p>当upate的document中有update操作符如$set,$unset才为更新操作，否则用该document替换匹配的document</p>
 </blockquote>
-<p>正是这共同的故事，使得人类有了共同合作的基础。</p>
-<p>1.2w-500年前的这段时间，成为“农业革命”</p>
-<p><strong>由于阅读后，没有及时的梳理，现在对里面的有些点模糊了，这也从一方面说明我的阅读笔记的不好。本文要太监了，后面有机会重读吧！</strong></p>
+<p>细思极恐啊。万一这要是弄混淆了。。。不知道mongodb怎么会这么设计。我想这也是为何在后续版本中，将update()方法拆分几个方法的原因。</p>
+<h2 id="delete操作">delete操作</h2><p>删除操作有如下几个语句</p>
+<ol>
+<li><code>db.collection.remove()</code></li>
+<li><code>db.collection.deleteOne()</code></li>
+<li><code>db.collection.deleteMany()</code></li>
+</ol>
+<p>用法类似，语法如：<code>revmove(&lt;query&gt;,&lt;justone&gt;,&lt;writeConcern&gt;)</code>。其中query为匹配的条件，其和查询中的条件格式一<br>样。默认情况下，remove对所有匹配的记录进行删除，但是通过将参数<code>justone</code>设置为true，则只删除匹配记录中的一条记录。那么问题来了，如果匹配多<br>个记录该删除那条呢？此时官方文档狡猾的推荐使用<code>db.collection.findAndDelete()</code>。可以对查询的结果按照条件排序，然后再删除第一条记录。</p>
+<h2 id="总结">总结</h2><p>mongodb在版本迭代的过程中，一个操作有多个方式实现。个人觉着还是使用更为精细的控制，比如插入用insertOne或者insertMany。避免造成不必要的误操作。</p>
+<h2 id="更多参考">更多参考</h2><p><a href="https://docs.mongodb.com/manual/crud/" target="_blank" rel="external">MongoDB CRUD Operations</a></p>
 
             </div>
         </div>
@@ -292,7 +344,7 @@
         <div class="card">
             <div class="card-content">
                 <!-- Duoshuo Comment BEGIN -->
-                <div class="ds-thread" data-thread-key="2016/05/22/briefhistory2/" data-title="人类简史（二）" data-url="gishub.info/2016/05/22/briefhistory2/"></div>
+                <div class="ds-thread" data-thread-key="2016/06/14/mongodb-CURD/" data-title="Mongodb文档的CURD操作" data-url="gishub.info/2016/06/14/mongodb-CURD/"></div>
 
                 <script type="text/javascript">
                     console.log(document.querySelector('.ds-thread'));

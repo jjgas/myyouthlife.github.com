@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="gishub.info/"/>
-  <updated>2016-06-14T02:13:34.900Z</updated>
+  <updated>2016-06-14T08:41:05.129Z</updated>
   <id>gishub.info/</id>
   
   <author>
@@ -16,11 +16,121 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Mongodb文档的CURD操作</title>
+    <link href="gishub.info/2016/06/14/mongodb-CURD/"/>
+    <id>gishub.info/2016/06/14/mongodb-CURD/</id>
+    <published>2016-06-14T08:38:38.000Z</published>
+    <updated>2016-06-14T08:41:05.129Z</updated>
+    
+    <content type="html">&lt;p&gt;从当年写毕业论文学习如何使用mongodb，到现在陆陆续续的在使用。一直都没有系统的去看看mongodb的文档。由于moogoose的原因，最近又在操作&lt;br&gt;mongodb，想想磨刀不误砍柴工，看看文档，动动笔记录记录。&lt;/p&gt;
+&lt;p&gt;在mongodb中有db，collection，document数据模型，今天先来说说mongodb的基元document的操作。mongodb所有的操作都围绕document来做。&lt;strong&gt;document相当于&lt;br&gt;传统关系型数据库中的row&lt;/strong&gt;&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;插入document&quot;&gt;插入document&lt;/h2&gt;&lt;p&gt;类似关系型数据库，一条条的row插入到table中，而NoSql中的一个个document 插入到collection中。&lt;/p&gt;
+&lt;p&gt;插入document的语句有如下几种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;db.collection_name.insert()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;db.collection_name.insertOne()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;db.collection_name.insertMany()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;通过字面意思也知道这几种插入方法的不同。其中1既可以插入一个document，也可以插入多个。而2,3是后续版本中添加的。mongodb的所有的写操作都是&lt;strong&gt;原子（atomic）&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;mongodb的document都包含一个 &lt;strong&gt;_id&lt;/strong&gt; 字段，该字段类似于关系型数据库中的&lt;strong&gt;primary&lt;br&gt;key&lt;/strong&gt;。其中_id可以在插入文档候自定义赋值，如&lt;br&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.some_col.insert(&amp;#123;&lt;span class=&quot;string&quot;&gt;&quot;_id&quot;&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;6&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;: &lt;span class=&quot;string&quot;&gt;&#39;suwen&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;也可以不显示指明，如果没有显示指明则mongodb会根据时间戳+pid+随机数信息生成一个类型为objectid的_id 值。如：&lt;br&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.some_col.insert(&amp;#123;&lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&#39;suwen&#39;&lt;/span&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;通过查询，其_id值为5750f3b164cfe92c28a4c2b1。且mongodb含有从 _id中提取时时间戳信息的命令。&lt;/p&gt;
+&lt;h2 id=&quot;查询document&quot;&gt;查询document&lt;/h2&gt;&lt;p&gt;在mongo中document的查询语句如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;db.collection.find(&amp;lt;query&amp;gt;,&amp;lt;projection&amp;gt;)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;db.collection.findOne(&amp;lt;query&amp;gt;,&amp;lt;projection&amp;gt;)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其中query为查询语句，而为optional参数对查询返回的&lt;strong&gt;字段&lt;/strong&gt;进行过滤。可以控制查询结果的传输量。&lt;/p&gt;
+&lt;p&gt;其中findOne可以直接获取一个document，而find获取多个document。则在获取document的中的某个字段值的时候需要注意。如：&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; dd=db.testpoint.findOne(&amp;#123;name:&lt;span class=&quot;string&quot;&gt;&quot;id1&quot;&lt;/span&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dd.name &lt;span class=&quot;comment&quot;&gt;// id1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; dd=db.testpoint.find(&amp;#123;name:&lt;span class=&quot;string&quot;&gt;&quot;id1&quot;&lt;/span&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dd.name &lt;span class=&quot;comment&quot;&gt;//no result to show&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;dd[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;].name &lt;span class=&quot;comment&quot;&gt;//id1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;当find()不添加任何参数或者参数为{}的时候，表示查询当前collection中的所有document。&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;project&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;project格式如下：{field1：,field2:..}其中字段值只有&lt;strong&gt;0和1两类&lt;/strong&gt;。其中0表示字段排除，1表示字段包含。&lt;br&gt;&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.testpoint.findOne(&amp;#123;name:&amp;#34;id1&amp;#34;&amp;#125;,&amp;#123;_id:0&amp;#125;) //&amp;#26597;&amp;#35810;&amp;#32467;&amp;#26524;&amp;#19981;&amp;#21253;&amp;#21547;_id &amp;#20449;&amp;#24687;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;query&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;mongo提供了非常丰富的query，来应用不同场景的查询。&lt;/p&gt;
+&lt;p&gt;大体分为下面几类：&lt;/p&gt;
+&lt;p&gt;1.简单相等查询&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.some_col.find(&amp;#123;&amp;#34;name&amp;#34;:&amp;#34;suwen&amp;#34;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;AND条件查询,直接多个字段&lt;br&gt;&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.some_col.find(&amp;#123;&amp;#34;name&amp;#34;:&amp;#34;suwen&amp;#34;,&amp;#39;gender&amp;#39;:&amp;#39;male&amp;#39;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;其他的OR条件或者比较查询需要与操作符进搭配使用。&lt;/p&gt;
+&lt;p&gt;2.与操作符结合判断&lt;/p&gt;
+&lt;p&gt;mongod提供了一些犹如关系型数据库中的操作符$in,$lt等。如&lt;br&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.some_col.find(&amp;#123;&lt;span class=&quot;string&quot;&gt;&quot;name&quot;&lt;/span&gt;:&amp;#123;$&lt;span class=&quot;keyword&quot;&gt;in&lt;/span&gt;:[&lt;span class=&quot;string&quot;&gt;&quot;suwen,mb&quot;&lt;/span&gt;]&amp;#125;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;用法和关系型数据库的in操作符一样。后面会专门写篇文章来学习这些关键字。&lt;/p&gt;
+&lt;p&gt;3.嵌套和引用文档的查询&lt;br&gt;mongodb 通过嵌套和应用构建复杂的document，这两者怎么查询呢？&lt;/p&gt;
+&lt;p&gt;有如下document：&lt;br&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;db.users.insert([&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    username: &lt;span class=&quot;string&quot;&gt;&#39;suwen&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    contact: &amp;#123; &lt;span class=&quot;comment&quot;&gt;//嵌套document&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        phone: &lt;span class=&quot;string&quot;&gt;&#39;111111111&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        email: &lt;span class=&quot;string&quot;&gt;&#39;1111@qq.com&#39;&lt;/span&gt;&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    department: &amp;#123; &lt;span class=&quot;comment&quot;&gt;//嵌套document&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        level: &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        title: &lt;span class=&quot;string&quot;&gt;&quot;giser&quot;&lt;/span&gt;&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hobby: [&lt;span class=&quot;string&quot;&gt;&#39;eating&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;sleeping&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;hit doudou&#39;&lt;/span&gt;] &lt;span class=&quot;comment&quot;&gt;//Array&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    username: &lt;span class=&quot;string&quot;&gt;&#39;jmb&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    contact: &amp;#123; &lt;span class=&quot;comment&quot;&gt;//嵌套document&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        phone: &lt;span class=&quot;string&quot;&gt;&#39;222222222&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        email: &lt;span class=&quot;string&quot;&gt;&#39;2222@qq.com&#39;&lt;/span&gt;&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    department: &amp;#123; &lt;span class=&quot;comment&quot;&gt;//嵌套document&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        level: &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        title: &lt;span class=&quot;string&quot;&gt;&quot;loser&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    hobby: [&lt;span class=&quot;string&quot;&gt;&#39;sleeping&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;eating&#39;&lt;/span&gt;] &lt;span class=&quot;comment&quot;&gt;//Array&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;])&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;嵌套document的查询有两种方式：&lt;/p&gt;
+&lt;p&gt;一是&lt;strong&gt;文档完全匹配的形式&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如find上面的记录需要使用如下语句：&lt;br&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.users.find(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; contact: &amp;#123; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        phone: &lt;span class=&quot;string&quot;&gt;&#39;111111111&#39;&lt;/span&gt;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        email: &lt;span class=&quot;string&quot;&gt;&#39;1111@qq.com&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;那么如果我只想以电话作为条件是不是可以使用如下这种形式？？？？&lt;br&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.users.find(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; contact: &amp;#123; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        phone: &lt;span class=&quot;string&quot;&gt;&#39;111111111&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;) &lt;span class=&quot;comment&quot;&gt;//no results&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;执行完，发现并没有结果出现。。这也是为何这种方式叫文档完全匹配。如果只使用嵌套文档中的某个字段作为条件来过滤，则需要使用如下第二种方式：&lt;/p&gt;
+&lt;p&gt;二是&lt;strong&gt;通过dot notation的形式&lt;/strong&gt;，该形式的格式为&lt;code&gt;&amp;lt;document&amp;gt;.&amp;lt;field&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.users.find(&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &lt;span class=&quot;string&quot;&gt;&#39;contact.phone&#39;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&#39;111111111&#39;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;4.Array的查询&lt;/p&gt;
+&lt;p&gt;有了上面几个基础，再来理解Array的查询就容易多了。 document的字段值可能是一个Array类型。如何对Array的值进行判断，从而来筛选document呢？&lt;/p&gt;
+&lt;p&gt;一是完全匹配形式。&lt;br&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.users.find(&amp;#123; hobby: [&lt;span class=&quot;string&quot;&gt;&#39;eating&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;sleeping&#39;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&#39;hit doudou&#39;&lt;/span&gt;]&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;同样其为整个Array的匹配。只有全部匹配的Array才能筛选出。&lt;/p&gt;
+&lt;p&gt;二是匹配Array中的某个元素&lt;br&gt;针对Array中的某个元素的匹配，可以使用犹如普通的筛选语句。&lt;br&gt;&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.users.find(&amp;#123; hobby: &amp;#39;hit doudou&amp;#39;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;除此之外，array还有一种常见方式&lt;br&gt;三对Array某个位置的元素进行匹配&lt;br&gt;如对array的index的value为’eating’的进行匹配。&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;db.users.find(&amp;#123; &amp;#34;hobby.0&amp;#34;: &amp;#39;eating&amp;#39;&amp;#125;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;Array除此上面三种方式，还有更为复杂条件匹配。此处按下不表。&lt;/p&gt;
+&lt;h2 id=&quot;update&quot;&gt;update&lt;/h2&gt;&lt;p&gt;这个就厉害了。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;db.collection.update()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;db.collection.updateOne()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;db.collection.updateMany()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;db.collection.replaceOne()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其中&lt;code&gt;upate(&amp;lt;query&amp;gt;,&amp;lt;update&amp;gt;,&amp;lt;upsert&amp;gt;,&amp;lt;multi&amp;gt;,&amp;lt;writeConcern&amp;gt;)&lt;/code&gt;方法用来&lt;code&gt;更新或者替代&lt;/code&gt;匹配的文档。其中前两个参数为必填参数。&lt;/p&gt;
+&lt;p&gt;query为匹配的条件filter，update为更新的内容，&lt;code&gt;upsert&lt;/code&gt;这个参数厉害了，当通过query查找没有匹配的document的且upsert参数为true，这个时候，将会在collection中去insert一条document。而multi指定是否同时更新多个document。&lt;/p&gt;
+&lt;p&gt;前面说到update()用来更新或者替换，那么问题来了，什么时候是对document的更新，什么是替换整个document。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当upate的document中有update操作符如$set,$unset才为更新操作，否则用该document替换匹配的document&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;细思极恐啊。万一这要是弄混淆了。。。不知道mongodb怎么会这么设计。我想这也是为何在后续版本中，将update()方法拆分几个方法的原因。&lt;/p&gt;
+&lt;h2 id=&quot;delete操作&quot;&gt;delete操作&lt;/h2&gt;&lt;p&gt;删除操作有如下几个语句&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;db.collection.remove()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;db.collection.deleteOne()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;db.collection.deleteMany()&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;用法类似，语法如：&lt;code&gt;revmove(&amp;lt;query&amp;gt;,&amp;lt;justone&amp;gt;,&amp;lt;writeConcern&amp;gt;)&lt;/code&gt;。其中query为匹配的条件，其和查询中的条件格式一&lt;br&gt;样。默认情况下，remove对所有匹配的记录进行删除，但是通过将参数&lt;code&gt;justone&lt;/code&gt;设置为true，则只删除匹配记录中的一条记录。那么问题来了，如果匹配多&lt;br&gt;个记录该删除那条呢？此时官方文档狡猾的推荐使用&lt;code&gt;db.collection.findAndDelete()&lt;/code&gt;。可以对查询的结果按照条件排序，然后再删除第一条记录。&lt;/p&gt;
+&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;&lt;p&gt;mongodb在版本迭代的过程中，一个操作有多个方式实现。个人觉着还是使用更为精细的控制，比如插入用insertOne或者insertMany。避免造成不必要的误操作。&lt;/p&gt;
+&lt;h2 id=&quot;更多参考&quot;&gt;更多参考&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;https://docs.mongodb.com/manual/crud/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;MongoDB CRUD Operations&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;从当年写毕业论文学习如何使用mongodb，到现在陆陆续续的在使用。一直都没有系统的去看看mongodb的文档。由于moogoose的原因，最近又在操作&lt;br&gt;mongodb，想想磨刀不误砍柴工，看看文档，动动笔记录记录。&lt;/p&gt;
+&lt;p&gt;在mongodb中有db，collection，document数据模型，今天先来说说mongodb的基元document的操作。mongodb所有的操作都围绕document来做。&lt;strong&gt;document相当于&lt;br&gt;传统关系型数据库中的row&lt;/strong&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="opensource" scheme="gishub.info/categories/opensource/"/>
+    
+      <category term="database" scheme="gishub.info/categories/opensource/database/"/>
+    
+    
+      <category term="CURD" scheme="gishub.info/tags/CURD/"/>
+    
+      <category term="database" scheme="gishub.info/tags/database/"/>
+    
+      <category term="mongodb" scheme="gishub.info/tags/mongodb/"/>
+    
+      <category term="opensource" scheme="gishub.info/tags/opensource/"/>
+    
+  </entry>
+  
+  <entry>
     <title>快速了解mongodb的空间操作</title>
     <link href="gishub.info/2016/06/14/mongodb-spatial-query/"/>
     <id>gishub.info/2016/06/14/mongodb-spatial-query/</id>
     <published>2016-06-14T01:50:21.000Z</published>
-    <updated>2016-06-14T02:13:34.900Z</updated>
+    <updated>2016-06-14T06:28:44.251Z</updated>
     
     <content type="html">&lt;p&gt;遥想当年做毕业设计的时候，为了写论文而写论文，定了个mongodb 与oracle的互操作。当时使用的mongodb是无法对空间数据进行操作的。当时单纯的使用GDAL将shapelife文件转换文本表达以mongodb进行存储。&lt;/p&gt;
 &lt;p&gt;而现在看mongodb的空间操作，虽然没有办法和ArcSDE和PostGIS相比，但是比没有强呀。&lt;/p&gt;
