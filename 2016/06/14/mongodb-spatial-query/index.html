@@ -286,8 +286,8 @@
 <li>临近查询（$near，$nearSphere）</li>
 </ul>
 <p>用来查找离某个点一定距离的点。<strong>需要构建索引</strong></p>
-<p> 使用<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">db.testpoint.ensureIndex(<span class="string">"2dsphere"</span>)<span class="string">``</span><span class="string">`创建索引。</span><br><span class="line"></span><br><span class="line">然后使用$neare 操作符号进行选择，如选择离点id1，最大不超过500公里的点。</span></span><br></pre></td></tr></table></figure></p>
-<p>var point=db.testpoint.findOne({“name”:”id1”})<br>db.testpoint.find({<br>    loc: {$near: {<br>           $geometry: point.loc,<br>           $maxDistance: 500000,<br>        }}<br>    })<br>```<br>返回的记录按照距离的从近到远进行排列。</p>
+<p> 使用<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> &#10; &#21019;&#24314;&#32034;&#24341;&#12290;&#10; &#10; &#28982;&#21518;&#20351;&#29992;$neare &#25805;&#20316;&#31526;&#21495;&#36827;&#34892;&#36873;&#25321;&#65292;&#22914;&#36873;&#25321;&#31163;&#28857;id1&#65292;&#26368;&#22823;&#19981;&#36229;&#36807;500&#20844;&#37324;&#30340;&#28857;&#12290;&#10; &#10;```javascript&#10;var point=db.testpoint.findOne(&#123;&#34;name&#34;:&#34;id1&#34;&#125;)&#10;db.testpoint.find(&#123;&#10;    loc: &#123;$near: &#123;&#10;           $geometry: point.loc,&#10;           $maxDistance: 500000,&#10;        &#125;&#125;&#10;    &#125;)</span><br></pre></td></tr></table></figure></p>
+<p>返回的记录按照距离的从近到远进行排列。</p>
 <h2 id="更多参考">更多参考</h2><p><a href="https://docs.mongodb.com/manual/applications/geospatial-indexes/" target="_blank" rel="external">Geospatial Indexes and Queries</a></p>
 <p><a href="http://blog.mlab.com/2014/08/a-primer-on-geospatial-data-and-mongodb/" target="_blank" rel="external">A Primer on Geospatial Data and MongoDB</a></p>
 <p><a href="http://tugdualgrall.blogspot.jp/2014/08/introduction-to-mongodb-geospatial.html" target="_blank" rel="external">tug’s blog introduction-to-mongodb-geospatial</a></p>
@@ -400,7 +400,7 @@
 </div>
 
 
-<script src="/js/jquery-2.1.1.min.js"></script>
+<script src="/js/jquery.min.js"></script>
 <script src="/js/materialize.min.js"></script>
 
 <script>
@@ -470,7 +470,14 @@
             
 
             // 搜索功能
-            $('.modal-trigger').leanModal();
+            $('.modal-trigger').leanModal({
+                // 打开搜索框时自动聚焦
+                ready: function() {
+                    if ($('#search').is(":visible")) {
+                        $('#search-input').focus();
+                    }
+                }
+            });
             var searchXml = "sitemap.xml";
             if (searchXml.length == 0) {
              	searchXml = "search.xml";
